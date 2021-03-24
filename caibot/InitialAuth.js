@@ -32,57 +32,18 @@ let currentlyRunningChannels = [];
     await chatClient.waitForRegistration();
     await onBotStartUp();
 
+    /** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+     * 20 authenticate attempts per 10 seconds per user (200 for verified bots) *
+     * 20 join attempts per 10 seconds per user (2000 for verified bots)        *
+     ** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
     async function onBotStartUp() {
-        const channelChunkSize = 5;
-        const joinInterval = 10000;
+        const channelChunkSize = 5; //amount of channels to join every joinInterval.
+        const joinInterval = 10000; //10s
         const numberOfChannels = botChannels.joined_channels.length;
-        /** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-         * 20 authenticate attempts per 10 seconds per user (200 for verified bots) *
-         * 20 join attempts per 10 seconds per user (2000 for verified bots)        *
-         ** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-        await channelArraySplitter(channelChunkSize);
+        channelChunks = await BotUtil.channelArraySplitter(channelChunkSize,botChannels);
         await channelChunkProvider(channelChunks,joinInterval)
         await getChannelModerators();
-        setTimeout(joinNewChannel, (numberOfChannels/5)*joinInterval,'#ratirl') //This a test of joinNewChannel
-        //await updateChannelJSON();
-    }
-
-
-    async function channelArraySplitter(channelChunkSize) {
-        const listOfChannelChunks = [];
-        let chunkSize = channelChunkSize;
-        let channelListLength = botChannels.joined_channels.length;
-        let channelsJoined = 0;
-        let latestArrayBreak = 0;
-        for (let i = 1; i< channelListLength; i++) {
-            if (i % channelChunkSize === 0) {
-                let splitArrayOfObjects = botChannels.joined_channels.slice(latestArrayBreak,i);
-                let chunkArray = [];
-                let j = 0;
-                while (channelChunkSize !== j) {
-                    let splitKey = splitArrayOfObjects[j].channel_key;
-                    chunkArray.push(splitKey);
-                    j++;
-                }
-                channelsJoined += chunkSize;
-                latestArrayBreak += chunkSize;
-                listOfChannelChunks.push(chunkArray);
-            }
-            if (channelListLength - channelsJoined <= chunkSize) {
-                let remainingCount = channelListLength - channelsJoined;
-                let splitEndOfArray = botChannels.joined_channels.slice(latestArrayBreak,channelListLength);
-                let chunkArray = [];
-                let k = 0;
-                while (k < remainingCount) {
-                    let splitKey2 = splitEndOfArray[k].channel_key;
-                    chunkArray.push(splitKey2);
-                    i = channelListLength;
-                    k++;
-                }
-                listOfChannelChunks.push(chunkArray);
-            }
-        }
-        channelChunks = listOfChannelChunks;
+        //await updateChannelJSON(); updates the json each time the bot starts.
     }
 
     async function channelChunkProvider(channelChunks, joinInterval) {
@@ -93,7 +54,8 @@ let currentlyRunningChannels = [];
     }
 
     async function joinChannels(channelsToBeJoined) {
-        for (let channel in channelsToBeJoined) {
+        const channelKeys = Object.keys(channelsToBeJoined);
+        for (let channel of channelKeys) {
             if (BotUtil.isValidKey(channelsToBeJoined[channel])) {
                 console.log("Joining channel:", channelsToBeJoined[channel]);
                 await chatClient.join(channelsToBeJoined[channel]);
@@ -101,7 +63,6 @@ let currentlyRunningChannels = [];
             } else {
                 console.log("Joining channel failed: " + channelsToBeJoined[channel] + " ![key]");
             }
-
         }
     }
 
