@@ -4,6 +4,8 @@ This is a hobby project about twitch chat moderation which turned out much large
 
 You can find more about the bot on my [twitch page](https://www.twitch.tv/caisesiume/about)
 
+This page is where you can find the rebuilt & better version of the currently running bot.
+
 Some bot features:
 * Chat moderation
 * Commands
