@@ -15,19 +15,19 @@ exports.isValidKey = function (channelKey) {
  * including the channels to join under botChannels.joined_channels
  * @returns multi dimensional array containing the channelChunks. The chunks contains IRC keys e.g '#channel'
  */
-exports.channelArraySplitter = async function (channelChunkSize, botChannels) {
+exports.channelArraySplitter = async function (channelChunkSize, channelsArray) {
     const listOfChannelChunks = [];
     let chunkSize = channelChunkSize;
-    let channelListLength = botChannels.joined_channels.length;
+    let channelListLength = channelsArray.length;
     let channelsJoined = 0;
     let latestArrayBreak = 0;
     for (let i = 1; i< channelListLength; i++) {
         if (i % channelChunkSize === 0) {
-            let splitArrayOfObjects = botChannels.joined_channels.slice(latestArrayBreak,i);
+            let splitArrayOfObjects = channelsArray.slice(latestArrayBreak,i);
             let chunkArray = [];
             let j = 0;
             while (channelChunkSize !== j) {
-                let splitKey = splitArrayOfObjects[j].channel_key;
+                let splitKey = splitArrayOfObjects[j];
                 chunkArray.push(splitKey);
                 j++;
             }
@@ -37,11 +37,11 @@ exports.channelArraySplitter = async function (channelChunkSize, botChannels) {
         }
         if (channelListLength - channelsJoined <= chunkSize) {
             let remainingCount = channelListLength - channelsJoined;
-            let splitEndOfArray = botChannels.joined_channels.slice(latestArrayBreak,channelListLength);
+            let splitEndOfArray = channelsArray.slice(latestArrayBreak,channelListLength);
             let chunkArray = [];
             let k = 0;
             while (k < remainingCount) {
-                let splitKey2 = splitEndOfArray[k].channel_key;
+                let splitKey2 = splitEndOfArray[k];
                 chunkArray.push(splitKey2);
                 i = channelListLength;
                 k++;
