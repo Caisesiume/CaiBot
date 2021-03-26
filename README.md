@@ -14,6 +14,10 @@ Some bot features to be implemented:
 * Custom commands
 * Custom channel point rewards
 
+
+![PepoG](https://cdn.frankerfacez.com/emoticon/218530/2)
+*This page is currently under development, and won't be complete for a while*
+
 ## Technical info
 The bot is node.js based and connects to twitch using the Twitch.js API.
 
@@ -22,6 +26,3 @@ The current state of the bot is not useful at all, just FYI.
 
 
 I am kind of a noob with some coding parts, so a lot of the code will probably be questionable in terms of how it's written.
-
-![PepoG](https://cdn.frankerfacez.com/emoticon/218530/2)
-*This page is currently under development, and won't be complete for a while*
