@@ -6,7 +6,7 @@ const fs = require('fs-extra');
 
 const PATH_CLIENT = '../client.json';
 const PATH_TOKENS = '../tokens.json';
-const PATH_CHANNELS = '../channels.json';
+const PATH_CHANNELS = '../channel.json';
 let botChannels = {};
 let channelChunks = [];
 let currentlyRunningChannels = [];
@@ -33,7 +33,8 @@ let currentlyRunningChannels = [];
     });
     const chatClient = await ChatClient.forTwitchClient(twitchClient);
     botChannels = JSON.parse(await fs.readFile(PATH_CHANNELS,'UTF-8'));
-    setInterval(FileHandler.writeUpdatedChannels,30000,'../channels.json',botChannels); //local auto save
+    currentlyRunningChannels = FileHandler.getOperatingChannels(botChannels.joined_channels); //saves all channels the bot is in
+    setInterval(FileHandler.writeUpdatedChannels,20000,PATH_CHANNELS,botChannels); //auto save to disk
 
     console.log("Connecting to Twitch");
     await chatClient.connect();
@@ -48,10 +49,10 @@ let currentlyRunningChannels = [];
     async function onBotStartUp() {
         const channelChunkSize = 5; //amount of channels to join every joinInterval.
         const joinInterval = 10000; //10s
-        channelChunks = await BotUtil.channelArraySplitter(channelChunkSize,botChannels);
+        channelChunks = await BotUtil.channelArraySplitter(channelChunkSize,currentlyRunningChannels);
         await channelChunkProvider(channelChunks,joinInterval)
         await getModeratorsForAll();
-        //setTimeout(joinNewChannel,joinInterval,"#test");
+        setTimeout(joinNewChannel,joinInterval,"#test");
         //await updateChannelJSON(); updates the json each time the bot starts.
     }
 
@@ -63,14 +64,14 @@ let currentlyRunningChannels = [];
     }
 
     async function joinChannels(channelsToBeJoined) {
+        console.log(currentlyRunningChannels)
         const channelKeys = Object.keys(channelsToBeJoined);
         for (let channel of channelKeys) {
-            if (BotUtil.isValidKey(channelsToBeJoined[channel]) && !(currentlyRunningChannels.includes(channelsToBeJoined[channel]))) {
+            if (BotUtil.isValidKey(channelsToBeJoined[channel])) {
                 console.log("Joining channel:", channelsToBeJoined[channel]);
                 await chatClient.join(channelsToBeJoined[channel]);
-                addOperatingChannels(channelsToBeJoined[channel].toLowerCase());
             } else {
-                console.log("Joining channel failed: " + channelsToBeJoined[channel] + " ![key]/already joined");
+                console.log("Joining channel failed: " + channelsToBeJoined[channel] + " ![key]");
             }
         }
     }
@@ -89,21 +90,25 @@ let currentlyRunningChannels = [];
     }
 
     async function joinNewChannel(channelKey) {
-        if (!(currentlyRunningChannels.includes(channelKey)) && BotUtil.isValidKey(channelKey)) {
+        if (BotUtil.isValidKey(channelKey)) {
             let channel_key = channelKey.toLowerCase();
-            console.log("Joining channel:", channel_key);
-            await chatClient.join(channel_key);
-            addOperatingChannels(channel_key); //adds the channel to track it as a channel the bot is operating in
-            console.log("Getting Mod List for ", channel_key);
-            let newChannelObject = {
-                "channel_key": channel_key,
-                "channel_name": channel_key.split('#').join(''),
-                "messages": 0,
-                "mods": await chatClient.getMods(channel_key)
+            if (!(currentlyRunningChannels.includes(channel_key))) {
+                console.log("Joining channel:", channel_key);
+                await chatClient.join(channel_key);
+                addOperatingChannels(channel_key); //adds the channel to track it as a channel the bot is operating in
+                console.log("Getting Mod List for ", channel_key);
+                let newChannelObject = {
+                    "channel_key": channel_key,
+                    "channel_name": channel_key.split('#').join(''),
+                    "messages": 0,
+                    "mods": await chatClient.getMods(channel_key)
+                }
+                botChannels.joined_channels.push(newChannelObject); //adds the newly joined channel to the saved json structure
+            } else {
+                console.log("Joining channel failed: " + channelKey + ", Already joined");
             }
-            botChannels.joined_channels.push(newChannelObject); //adds the newly joined channel to the saved json structure
         } else {
-            console.log("Joining channel: " + channelKey + " failed.");
+            console.log("Joining channel: " + channelKey + ", Invalid key");
         }
     }
 })();
