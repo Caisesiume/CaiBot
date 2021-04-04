@@ -1,37 +1,18 @@
 const BotUtil = require('./bot-utils'); //help functions mostly to avoid exceptions.
 const FileHandler = require('./io-handler');
-const TwitchClient = require('twitch').default;
-const ChatClient = require('twitch-chat-client').default;
+const Auth = require('./Auth');
 const fs = require('fs-extra');
+const ChannelPointsListeners = require('./ChannelPointRedemptions');
 
 const PATH_CLIENT = '../client.json';
 const PATH_TOKENS = '../tokens.json';
-const PATH_CHANNELS = '../channel.json';
+const PATH_CHANNELS = '../channels.json';
 let botChannels = {};
 let channelChunks = [];
 let currentlyRunningChannels = [];
-//TODO add join queue
-
-
-
 (async () => {
-    const clientData = JSON.parse(await fs.readFile(PATH_CLIENT, 'UTF-8'));
-    const tokenData = JSON.parse(await fs.readFile(PATH_TOKENS, 'UTF-8'));
-    const twitchClient = await TwitchClient.withCredentials(clientData.clientId, tokenData.accessToken, undefined, {
-        clientSecret: clientData.clientSecret,
-        refreshToken: tokenData.refreshToken,
-        expiry: tokenData.expiryTimestamp === null ? null : new Date(tokenData.expiryTimestamp),
-        onRefresh: async ({ accessToken, refreshToken, expiryDate }) => {
-            console.log("Refreshing Access Token");
-            const newTokenData = {
-                accessToken,
-                refreshToken,
-                expiryTimestamp: expiryDate === null ? null : expiryDate.getTime()
-            };
-            await fs.writeFile(PATH_TOKENS, JSON.stringify(newTokenData, null, 4), 'UTF-8')
-        }
-    });
-    const chatClient = await ChatClient.forTwitchClient(twitchClient);
+
+    const chatClient = await Auth.auth(PATH_CLIENT,PATH_TOKENS);
     botChannels = JSON.parse(await fs.readFile(PATH_CHANNELS,'UTF-8'));
     currentlyRunningChannels = FileHandler.getOperatingChannels(botChannels.joined_channels); //saves all channels the bot is in
     setInterval(FileHandler.writeUpdatedChannels,20000,PATH_CHANNELS,botChannels); //auto save to disk
@@ -40,7 +21,7 @@ let currentlyRunningChannels = [];
     await chatClient.connect();
     console.log("Connected to Twitch");
     await chatClient.waitForRegistration();
-    await onBotStartUp();
+    await onBotStartUp(chatClient);
 
     /** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
      * 20 authenticate attempts per 10 seconds per user (200 for verified bots) *
@@ -52,7 +33,9 @@ let currentlyRunningChannels = [];
         channelChunks = await BotUtil.channelArraySplitter(channelChunkSize,currentlyRunningChannels);
         await channelChunkProvider(channelChunks,joinInterval)
         await getModeratorsForAll();
-        setTimeout(joinNewChannel,joinInterval,"#test");
+        await ChannelPointsListeners.channelPointsTracker(chatClient);
+
+        setTimeout(joinNewChannel,joinInterval,"#test"); //TODO remove
         //await updateChannelJSON(); updates the json each time the bot starts.
     }
 
@@ -94,7 +77,7 @@ let currentlyRunningChannels = [];
             let channel_key = channelKey.toLowerCase();
             if (!(currentlyRunningChannels.includes(channel_key))) {
                 console.log("Joining channel:", channel_key);
-                await chatClient.join(channel_key);
+                setTimeout(async function joinChannel() { await chatClient.join(channel_key); }, 1000);
                 addOperatingChannels(channel_key); //adds the channel to track it as a channel the bot is operating in
                 console.log("Getting Mod List for ", channel_key);
                 let newChannelObject = {
