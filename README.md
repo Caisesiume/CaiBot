@@ -6,6 +6,7 @@ You can find more about the bot on my [twitch page](https://www.twitch.tv/caises
 
 This page is where you will be able to find the rebuilt & better version of the currently running bot.
 
+For now, you can find all commands and similar in the [GitHub wiki](https://github.com/Caisesiume/CaiBot/wiki/Home).
 
 Some bot features to be implemented:
 
