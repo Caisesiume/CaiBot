@@ -11,9 +11,9 @@ For now, you can find all commands and similar in the [GitHub wiki](https://gith
 Some bot features to be implemented:
 
 * Chat moderation
-* Commands
+* [Commands](https://github.com/Caisesiume/CaiBot/wiki/Commands)
 * Custom commands
-* Custom channel point rewards
+* [Custom channel point rewards](https://github.com/Caisesiume/CaiBot/wiki/Channel-Point-Rewards)
 
 
 ![PepoG](https://cdn.frankerfacez.com/emoticon/218530/2)
