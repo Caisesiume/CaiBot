@@ -49,11 +49,16 @@ function isValidJSON(inputJSON) {
 
 /**
  * Reads the full map of rewards from all channels
- * @returns a JSON object/ map with all channels and reward IDs.
+ * @returns a map with all channels and reward IDs.
  */
 exports.getRewards = async function () {
     try {
-        return JSON.parse(await fs.readFile('./rewards.json'));
+        let objJSON = JSON.parse(await fs.readFile('./rewards.json'));
+        let rewardMap = new Map();
+        for (let k of Object.keys(objJSON)) {
+            rewardMap.set(k, objJSON[k]);
+        }
+        return rewardMap;
     } catch (e) {
         let d = new Date();
         let currentTime = d.getHours() +":"+ d.getMinutes() +":"+ d.getSeconds();
