@@ -10,9 +10,9 @@ This page is where you will be able to find the rebuilt & better version of the 
 Some bot features to be implemented:
 
 * Chat moderation
-* Commands
+* [Commands](https://github.com/Caisesiume/CaiBot/wiki/Commands)
 * Custom commands
-* Custom channel point rewards
+* [Custom channel point rewards](https://github.com/Caisesiume/CaiBot/wiki/Channel-Point-Rewards)
 
 ## Technical info
 The bot is node.js based and connects to twitch using the Twitch.js API.
