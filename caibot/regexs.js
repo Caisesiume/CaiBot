@@ -4,7 +4,7 @@
  * @returns {RegExp}
  */
 module.exports.addCPType = function () {
-    return /!add +(?<type>[\d\w]{3,12})/gmi;
+    return /!add reward +(?<type>[\d\w]{3,12})/gmi;
 }
 
 /**
@@ -13,7 +13,7 @@ module.exports.addCPType = function () {
  * @returns {RegExp}
  */
 module.exports.editCPType = function () {
-    return /!edit +(?<type>[\d\w]{3,12})/gmi;
+    return /!edit reward +(?<type>[\d\w]{3,12})/gmi;
 }
 
 /**
