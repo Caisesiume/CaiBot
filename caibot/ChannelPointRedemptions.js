@@ -1,5 +1,8 @@
 const FileHandler = require('./io-handler');
 const RegexHelper = require('./regexs');
+const Utils = require('./utils');
+const TwitchConnection = require('./main');
+const Channels = require('./ChannelConnection');
 let knownCPRewards = new Map();
 
 async function importRewards(){
@@ -15,14 +18,14 @@ setInterval(FileHandler.updateRewards,300000,knownCPRewards); //saves the reward
 
 /**
  * Tracks channel point redemptions and handles the ones saved in rewards.json.
- * @param chatClient the user client (logged in user) to listen to events and actions.
  */
-module.exports.channelPointsTracker = async function (chatClient) {
+module.exports.channelPointsTracker = async function () {
     await importRewards();
+    let chatClient = TwitchConnection.chatClient;
     //Handles adding new CP rewards. CP = channel points
     chatClient.onPrivmsg(async (channel, user, message, msg) => {
         let d = new Date();
-        let currentTime = d.getHours() +":"+ d.getMinutes() +":"+ d.getSeconds();
+        let currentTime = Utils.TimeHandler.getDateHHMMSS(new Date);
         let managingAccess = (user.toLowerCase() === channel.split('#').join('').toLowerCase()) || msg.userInfo.isMod;
         try {
             let cpRewardID = msg.tags.get('custom-reward-id'); //gets the ID of the rewards from twitch.
@@ -48,7 +51,7 @@ module.exports.channelPointsTracker = async function (chatClient) {
     //Handles edits of rewards.
     chatClient.onPrivmsg(async (channel, user, message, msg) => {
         let d = new Date();
-        let currentTime = d.getHours() +":"+ d.getMinutes() +":"+ d.getSeconds();
+        let currentTime = Utils.TimeHandler.getDateHHMMSS(new Date);
         let managingAccess = (user.toLowerCase() === channel.split('#').join('').toLowerCase()) || msg.userInfo.isMod;
         try {
             let cpRewardID = msg.tags.get('custom-reward-id'); //gets the ID of the rewards from twitch.
@@ -73,7 +76,7 @@ module.exports.channelPointsTracker = async function (chatClient) {
 
     chatClient.onPrivmsg(async (channel, user, message, msg) => {
         let d = new Date();
-        let currentTime = d.getHours() +":"+ d.getMinutes() +":"+ d.getSeconds();
+        let currentTime = Utils.TimeHandler.getDateHHMMSS(new Date);
         let twitchUsername = msg.userInfo.displayName; //To get correct capitalization
         try {
             let cpRewardID = msg.tags.get('custom-reward-id');
