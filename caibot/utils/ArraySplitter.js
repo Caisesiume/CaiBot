@@ -1,13 +1,4 @@
 /**
- * Checks whether a channel key is valid or not.
- * @param channelKey - key (string) that needs to be validated.
- * @returns true if key is valid, otherwise return false.
- */
-exports.isValidKey = function (channelKey) {
-    return !!channelKey.startsWith('#');
-}
-
-/**
  * Splits the full list of channels into smaller chunks of channels,
  * creating a two dimensional array.
  * @param channelChunkSize - the size of the chunks to join at a time. Keep join limits on Twitch in mind.
