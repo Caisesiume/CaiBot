@@ -1,8 +1,7 @@
 const FileHandler = require('./io-handler');
-const RegexHelper = require('./regexs');
+const RegexHelper = require('./utils/regexs');
 const Utils = require('./utils');
-const TwitchConnection = require('./main');
-const Channels = require('./ChannelConnection');
+
 let knownCPRewards = new Map();
 
 async function importRewards(){
@@ -19,12 +18,10 @@ setInterval(FileHandler.updateRewards,300000,knownCPRewards); //saves the reward
 /**
  * Tracks channel point redemptions and handles the ones saved in rewards.json.
  */
-module.exports.channelPointsTracker = async function () {
+module.exports.channelPointsTracker = async function (chatClient) {
     await importRewards();
-    let chatClient = TwitchConnection.chatClient;
     //Handles adding new CP rewards. CP = channel points
     chatClient.onPrivmsg(async (channel, user, message, msg) => {
-        let d = new Date();
         let currentTime = Utils.TimeHandler.getDateHHMMSS(new Date);
         let managingAccess = (user.toLowerCase() === channel.split('#').join('').toLowerCase()) || msg.userInfo.isMod;
         try {
@@ -50,7 +47,6 @@ module.exports.channelPointsTracker = async function () {
 
     //Handles edits of rewards.
     chatClient.onPrivmsg(async (channel, user, message, msg) => {
-        let d = new Date();
         let currentTime = Utils.TimeHandler.getDateHHMMSS(new Date);
         let managingAccess = (user.toLowerCase() === channel.split('#').join('').toLowerCase()) || msg.userInfo.isMod;
         try {
@@ -75,7 +71,6 @@ module.exports.channelPointsTracker = async function () {
 
 
     chatClient.onPrivmsg(async (channel, user, message, msg) => {
-        let d = new Date();
         let currentTime = Utils.TimeHandler.getDateHHMMSS(new Date);
         let twitchUsername = msg.userInfo.displayName; //To get correct capitalization
         try {
