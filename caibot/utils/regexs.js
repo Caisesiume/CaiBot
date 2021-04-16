@@ -42,3 +42,28 @@ module.exports.getUsername = function () {
 module.exports.getAtUsername = function () {
     return /@(?<username>[\d\w]{3,24})/gmi;
 }
+
+/**
+ * Regex used to extract the username in a twitch.tv/username link.
+ * Use group "username"
+ * @returns {RegExp}
+ */
+module.exports.getTwitchNickFromLink = function () {
+    return /(twitch\.tv\/(?<username>[A-Za-z0-9.]{3,24}))/gmi;
+}
+
+/**
+ * Regex used to check if the word clip is included in a string.
+ * @returns {RegExp}
+ */
+module.exports.clipCheck = function () {
+    return /clip/gmi;
+}
+
+/**
+ * Regex used to check if the word video is included in a string.
+ * @returns {RegExp}
+ */
+module.exports.videoCheck = function () {
+    return /video/gmi;
+}

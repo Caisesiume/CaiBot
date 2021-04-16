@@ -1,0 +1,12 @@
+{
+  "name": "caibot",
+  "version": "1.0.0",
+  "main": "main.js",
+  "private": true,
+  "scripts": {
+    "start": "main.js"
+  },
+  "dependencies": {
+    "twitch-js": "2.0.0-beta.42"
+  }
+}
