@@ -16,13 +16,11 @@ class SelfPromotion extends ModerationFilter{
      * @returns {Promise<(boolean|string|*)[]>}  [boolean, string, string]
      */
     async selfPromoCheck(message, user) {
-        console.log("called")
         let matchSelfPromo = getUsername.exec(message);
         if (matchSelfPromo && (!(videoCheck.exec(message)) && !(clipCheck.exec(message)))) {
             let selfPromoNotice = matchSelfPromo.groups['username'];
             if (selfPromoNotice.toLowerCase() === user.toLowerCase()) {
                 this.reason = `Posted Self promo link | message: ${message}`;
-                console.log("Selfpromo here")
                 return [true, this.getActionType(), this.reason]
             }
         }
