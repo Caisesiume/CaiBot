@@ -42,13 +42,8 @@ module.exports.connectToChannels = async function (channelChunkSize, joinInterva
             if (isValidKey(channelsToBeJoined[channel])) {
                 console.log(Utils.TimeHandler.getDateHHMMSS(new Date)+ " | Joining channel:", channelsToBeJoined[channel]);
                 await chatClient.join(channelsToBeJoined[channel]);
-                //console.log(botChannels.joined_channels[channel]);
                 let newChannelObj = await reCreateChannelObject(botChannels.joined_channels[channel]); //TODO Recreate objects from JSON
                 await newChannelObj.moderationSettings.setFilters(botChannels.joined_channels[channel].moderationSettings)
-                //console.log(botChannels.joined_channels[channel])
-                //botChannels.joined_channels[channel] = newChannelObj;
-                //console.log(botChannels.joined_channels[channel])
-                //botChannels.joined_channels.push(newChannelObj);
                 await startListener(newChannelObj);
             } else {
                 console.log(Utils.TimeHandler.getDateHHMMSS(new Date) + " | Joining channel failed: " + channelsToBeJoined[channel] + " ![key]");
@@ -57,9 +52,6 @@ module.exports.connectToChannels = async function (channelChunkSize, joinInterva
     }
 
     async function reCreateChannelObject(jsonStructure) {
-        //console.log("re: "+ jsonStructure)
-        //await recreateModFilters.);
-       // console.log(recreateModFilters)
         return new TwitchChannel.TwitchChannel(jsonStructure.channel_key, jsonStructure.channel_name, jsonStructure.messages, jsonStructure.mods, jsonStructure.moderationSettings.enabled);
     }
 

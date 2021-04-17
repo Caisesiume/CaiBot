@@ -12,7 +12,7 @@ async function startListen(channelSettings,chatClient) {
             if (channel === channelSettings.channel_key && !msg.userInfo.isMod && user.toLowerCase() !== channelSettings.channel_name) {
                 let currentTime = Utils.getDateHHMMSS(new Date());
                 let twitchUsername = msg.userInfo.displayName;
-                let actionDetails = await channelSettings.moderationSettings.checkFilters(message,user);
+                let actionDetails = await channelSettings.moderationSettings.checkFilters(message,user,msg);
                 if (actionDetails !== undefined) {
                     let takeAction = actionDetails[0];
                     let timeoutLength = actionDetails[1];
