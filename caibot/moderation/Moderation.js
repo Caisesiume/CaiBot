@@ -6,7 +6,7 @@ class Moderation {
     constructor(enabled) {
         this.enabled = enabled;
         this.filters = {
-            "ascii": new Ascii("ascii","Removes larger Ascii.js arts from chat.",true,false,3),
+            "ascii": new Ascii("ascii","Removes larger Ascii arts from chat.",true,false,3),
             "selfpromo": new SelfPromotion("selfpromo","Checks if the message is self promotion (linking own channel)", true, false, 600),
             "spambot": new Spambot("spambot","bans users posting bot spam including bigfollow.com link",true,true,0)
         }
