@@ -35,7 +35,7 @@ module.exports.getUsername = function () {
 }
 
 /**
- * Regex used to extract a word beginning with @ of length 3-24.
+ * Regex used to extract a username beginning with @ of length 3-24.
  * Use group "username"
  * @returns {RegExp}
  */
