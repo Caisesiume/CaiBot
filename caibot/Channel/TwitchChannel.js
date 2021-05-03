@@ -17,7 +17,7 @@ class TwitchChannel{
         this.moderationSettings = new Moderation.Moderation(moderationSettings);
         this.recentTimeouts = [];
 
-    }
+    }*
 
     getModeration() {
         return this.moderationSettings;
