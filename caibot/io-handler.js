@@ -7,9 +7,11 @@ const fs = require('fs-extra');
  * @param jsonChannels the json structure of all channels you want to save to file.
  */
 exports.writeUpdatedChannels = async function (PATH_CHANNELS, jsonChannels) {
-    let channels = JSON.stringify(jsonChannels);
+    let jsonToBeModified = jsonChannels;
+    let jsonToBeSaved = removeUnusedData(jsonToBeModified)
+    let channels = JSON.stringify(jsonToBeSaved);
     if (isValidJSON(channels)) {
-        await fs.writeFile(PATH_CHANNELS, JSON.stringify(jsonChannels), function (err) {
+        await fs.writeFile(PATH_CHANNELS, channels, function (err) {
             if (err) throw err;
         });
     } else {
@@ -17,6 +19,22 @@ exports.writeUpdatedChannels = async function (PATH_CHANNELS, jsonChannels) {
         let currentTime = d.getHours() +":"+ d.getMinutes() +":"+ d.getSeconds();
         console.log(currentTime +" | Auto save failed");
     }
+}
+
+
+/**
+ * Removes unnecessary data from the json structure that is about to be saved.
+ * This is to minimize the amount of redundant data.
+ * @param jsonArray the data of all channels that is about to be saved to disk
+ * @returns {*} returns the new modified file, but without logs and recently timed out users saved.
+ */
+function removeUnusedData(jsonArray) {
+    let channels = jsonArray.joined_channels;
+    for (let channel of channels) {
+        channel.recentTimeouts = [];
+        channel.msgLog = {};
+    }
+    return jsonArray;
 }
 
 /**
