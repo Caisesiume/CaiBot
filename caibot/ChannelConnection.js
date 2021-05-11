@@ -2,7 +2,7 @@ const fs = require('fs-extra');
 const FileHandler = require('./io-handler');
 const Utils = require('./utils');
 const TwitchChannel = require('./Channel/TwitchChannel');
-const ModActions = require("./moderation/ModActions");
+const ModActions = require("./Channel/moderation/ModActions");
 
 
 
@@ -16,7 +16,7 @@ module.exports.connectToChannels = async function (channelChunkSize, joinInterva
     botChannels = JSON.parse(await fs.readFile(PATH_CHANNELS,'UTF-8'));
     currentlyRunningChannels = FileHandler.getOperatingChannels(botChannels.joined_channels); //saves all channels the bot is in
     botChannels.channel_count = currentlyRunningChannels.length;
-    setInterval(FileHandler.writeUpdatedChannels, 30000, PATH_CHANNELS, botChannels); //auto save to disk every 60s
+    setInterval(FileHandler.writeUpdatedChannels, 3000, PATH_CHANNELS, botChannels); //auto save to disk every 60s
 
     console.log(Utils.TimeHandler.getDateHHMMSS(new Date)+ " | Connecting to Twitch");
     await chatClient.connect();

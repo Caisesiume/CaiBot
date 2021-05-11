@@ -1,5 +1,7 @@
-const Moderation = require("../moderation/Moderation");
-const ModActions = require("../moderation/ModActions");
+const Moderation = require("./moderation/Moderation");
+const ModActions = require("./moderation/ModActions");
+const CommandsController = require("./commands/CommandsController");
+const {Queue} = require("../utils");
 
 class TwitchChannel{
     channel_key;
@@ -7,17 +9,20 @@ class TwitchChannel{
     messages;
     mods = [];
     moderationSettings;
+    commands;
     recentTimeouts = [];
+    msgLog = {};
 
-    constructor(channel_key, channel_name, messages, mods, moderationSettings) {
+    constructor(channel_key, channel_name, messages, mods, moderationSettings, hasCommands) {
         this.channel_key = channel_key;
         this.channel_name = channel_name;
         this.messages = messages;
         this.mods = mods;
         this.moderationSettings = new Moderation.Moderation(moderationSettings);
+        this.commands = new CommandsController.CommandsController(hasCommands);
         this.recentTimeouts = [];
-
-    }*
+        this.msgLog = new Queue();
+    }
 
     getModeration() {
         return this.moderationSettings;
@@ -64,6 +69,22 @@ class TwitchChannel{
         } else {
             await this.addToTimeoutList(user,timeoutLength);
             return timeoutLength;
+        }
+    }
+
+
+    /**
+     * Adds elements to the channels temp message log. This is mostly used for look back purpose
+     * when using nuke commands.
+     * @param element needs be following: {message:user} where the message is the key.
+     */
+    async addToTempLog(element) {
+        //if current size < max size
+        if (this.msgLog.length() < this.msgLog.getSize()) {
+            await this.msgLog.enqueue(element)
+        } else {
+            await this.msgLog.dequeue();
+            await this.addToTempLog(element);
         }
     }
 

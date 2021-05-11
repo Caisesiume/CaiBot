@@ -2,7 +2,7 @@ class Queue {
     constructor(){
         this.data = [];
         this.rear = 0;
-        this.size = 10;
+        this.size = 1000;
     }
 
     enqueue(element) {
@@ -38,6 +38,10 @@ class Queue {
             this.rear = this.rear-1;
             return this.data.shift();
         }
+    }
+
+    getSize() {
+        return this.size;
     }
 
     print() {
