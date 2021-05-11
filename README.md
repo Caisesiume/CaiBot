@@ -6,6 +6,7 @@ You can find more about the bot on my [twitch page](https://www.twitch.tv/caises
 
 This page is where you will be able to find the rebuilt & better version of the currently running bot.
 
+For now, you can find all commands and similar in the [GitHub wiki](https://github.com/Caisesiume/CaiBot/wiki/Home).
 
 Some bot features to be implemented:
 
@@ -13,6 +14,10 @@ Some bot features to be implemented:
 * [Commands](https://github.com/Caisesiume/CaiBot/wiki/Commands)
 * Custom commands
 * [Custom channel point rewards](https://github.com/Caisesiume/CaiBot/wiki/Channel-Point-Rewards)
+
+
+![PepoG](https://cdn.frankerfacez.com/emoticon/218530/2)
+*This page is currently under development, and won't be complete for a while*
 
 ## Technical info
 The bot is node.js based and connects to twitch using the Twitch.js API.
@@ -22,6 +27,3 @@ The current state of the bot is not useful at all, just FYI.
 
 
 I am kind of a noob with some coding parts, so a lot of the code will probably be questionable in terms of how it's written.
-
-![PepoG](https://cdn.frankerfacez.com/emoticon/218530/2)
-*This page is currently under development, and won't be complete for a while*
