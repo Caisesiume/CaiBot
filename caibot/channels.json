@@ -46,6 +46,18 @@
         }
       }
     },
+    "commands": {
+      "enabled": true,
+      "listOfCommands": [
+        {
+          "enabled": true,
+          "commandName": "!ping",
+          "response": "Pong! Bot uptime: xx:xx:xx",
+          "cooldown": 3000,
+          "permission": "everyone"
+        }
+      ]
+    },
     "recentTimeouts": []
   }, {
     "channel_key": "#caisesiumebot",
@@ -91,6 +103,18 @@
           "timeoutLength": 3600
         }
       }
+    },
+    "commands": {
+      "enabled": true,
+      "listOfCommands": [
+        {
+          "enabled": true,
+          "commandName": "!ping",
+          "response": "Pong! Bot uptime: xx:xx:xx",
+          "cooldown": 3000,
+          "permission": "everyone"
+        }
+      ]
     },
     "recentTimeouts": []
   }]

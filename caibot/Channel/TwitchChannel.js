@@ -21,7 +21,7 @@ class TwitchChannel{
         this.moderationSettings = new Moderation.Moderation(moderationSettings);
         this.commands = new CommandsController.CommandsController(hasCommands);
         this.recentTimeouts = [];
-        this.msgLog = new Queue();
+        this.msgLog = new Queue.Queue();
     }
 
     getModeration() {
