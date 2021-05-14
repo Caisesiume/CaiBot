@@ -15,7 +15,7 @@ class Command{
     }
 
     isOnCooldown(){
-        return this.hasCooldown;
+        return this._hasCooldown;
     }
 
     getEnabled() {
@@ -38,5 +38,11 @@ class Command{
         return this.commandName;
     }
 
+
+    setHasCooldown(value) {
+        if (typeof value === "boolean"){
+            this.hasCooldown = value;
+        }
+    }
 }
 module.exports.Command = Command;

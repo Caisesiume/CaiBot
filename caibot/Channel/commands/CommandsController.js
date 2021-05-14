@@ -8,12 +8,6 @@ class CommandsController{
         this.enabled = enabled;
     }
 
-    async addBulk(listOfCommands) {
-        for (let command of listOfCommands) {
-            this.commandList.push(command)
-        }
-    }
-
     setCommands(commandsJson) {
         let listOfCommands = commandsJson.listOfCommands;
         for (let command of listOfCommands) {
@@ -28,7 +22,7 @@ class CommandsController{
         }
     }
 
-    getEnabled() {
+    isEnabled() {
         return this.enabled;
     }
 }

@@ -28,6 +28,10 @@ class TwitchChannel{
         return this.moderationSettings;
     }
 
+    getCommandSettings(){
+        return this.commands;
+    }
+
     /**
      * Adds recently timed out users to a "probation" list.
      * After (timeoutLength * 15) * 1000 ms the user is removed from the list.
