@@ -69,7 +69,7 @@ module.exports.channelPointsTracker = async function (chatClient) {
         }
     });
 
-
+    //Take action on
     chatClient.onPrivmsg(async (channel, user, message, msg) => {
         let currentTime = Utils.TimeHandler.getDateHHMMSS(new Date);
         let twitchUsername = msg.userInfo.displayName; //To get correct capitalization
@@ -77,31 +77,33 @@ module.exports.channelPointsTracker = async function (chatClient) {
             let cpRewardID = msg.tags.get('custom-reward-id');
             if (cpRewardID !== undefined && !(message.startsWith("!"))) {
                 let rewardValue = knownCPRewards.get(cpRewardID);
-                let isTimeout = rewardValue.startsWith("timeout");
-                if (rewardValue === "ban") {
-                    if (message.includes("@")) {
-                        let userCheck = RegexHelper.getAtUsername().exec(message);
-                        let foundUser = userCheck.groups["username"];
-                        chatClient.ban(channel, `${foundUser} ${twitchUsername} banned you using channel points`);
-                        console.log(channel + ` | ${currentTime} | #REDEMPTION ${twitchUsername} banned ${foundUser}`);
-                    } else {
-                        let userCheck = RegexHelper.getUsername().exec(message);
-                        let foundUser = userCheck.groups["username"];
-                        chatClient.ban(channel, `${foundUser} ${twitchUsername} banned you using channel points`);
-                        console.log(channel + ` | ${currentTime} | #REDEMPTION ${twitchUsername} banned ${foundUser}`);
-                    }
-                } else if (isTimeout) { //One if message includes @ and one takes the first word in the message.
-                    let timeoutLength = getTimeoutLength(rewardValue);
-                    if (message.includes("@")) {
-                        let userCheck = RegexHelper.getAtUsername().exec(message);
-                        let foundUser = userCheck.groups["username"];
-                        chatClient.timeout(channel,`${foundUser} ${timeoutLength} ${twitchUsername} timed you out with channel points`);
-                        console.log(channel + ` | ${currentTime} | #REDEMPTION ${twitchUsername} timed out ${foundUser} for ${timeoutLength}s`);
-                    } else {
-                        let userCheck = RegexHelper.getUsername().exec(message);
-                        let foundUser = userCheck.groups["username"];
-                        chatClient.timeout(channel,`${foundUser} ${timeoutLength} ${twitchUsername} timed you out with channel points`);
-                        console.log(channel + ` | ${currentTime} | #REDEMPTION ${twitchUsername} timed out ${foundUser} for ${timeoutLength}s`);
+                if (rewardValue !== undefined) {
+                    let isTimeout = rewardValue.startsWith("timeout");
+                    if (rewardValue === "ban") {
+                        if (message.includes("@")) {
+                            let userCheck = RegexHelper.getAtUsername().exec(message);
+                            let foundUser = userCheck.groups["username"];
+                            chatClient.ban(channel, `${foundUser} ${twitchUsername} banned you using channel points`);
+                            console.log(channel + ` | ${currentTime} | #REDEMPTION ${twitchUsername} banned ${foundUser}`);
+                        } else {
+                            let userCheck = RegexHelper.getUsername().exec(message);
+                            let foundUser = userCheck.groups["username"];
+                            chatClient.ban(channel, `${foundUser} ${twitchUsername} banned you using channel points`);
+                            console.log(channel + ` | ${currentTime} | #REDEMPTION ${twitchUsername} banned ${foundUser}`);
+                        }
+                    } else if (isTimeout) { //One if message includes @ and one takes the first word in the message.
+                        let timeoutLength = getTimeoutLength(rewardValue);
+                        if (message.includes("@")) {
+                            let userCheck = RegexHelper.getAtUsername().exec(message);
+                            let foundUser = userCheck.groups["username"];
+                            chatClient.timeout(channel, `${foundUser} ${timeoutLength} ${twitchUsername} timed you out with channel points`);
+                            console.log(channel + ` | ${currentTime} | #REDEMPTION ${twitchUsername} timed out ${foundUser} for ${timeoutLength}s`);
+                        } else {
+                            let userCheck = RegexHelper.getUsername().exec(message);
+                            let foundUser = userCheck.groups["username"];
+                            chatClient.timeout(channel, `${foundUser} ${timeoutLength} ${twitchUsername} timed you out with channel points`);
+                            console.log(channel + ` | ${currentTime} | #REDEMPTION ${twitchUsername} timed out ${foundUser} for ${timeoutLength}s`);
+                        }
                     }
                 }
             }
