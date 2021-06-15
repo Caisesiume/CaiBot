@@ -71,7 +71,7 @@ function isValidJSON(inputJSON) {
  */
 exports.getRewards = async function () {
     try {
-        let objJSON = JSON.parse(await fs.readFile('./rewards.json'));
+        let objJSON = JSON.parse(await fs.readFile('./Channel/channelpoints/rewards.json'));
         let rewardMap = new Map();
         for (let k of Object.keys(objJSON)) {
             rewardMap.set(k, objJSON[k]);
@@ -92,7 +92,7 @@ exports.getRewards = async function () {
 exports.updateRewards = async function (rewardObject) {
     try {
         const rewardJSON = Object.fromEntries(rewardObject)
-        fs.writeFile('./rewards.json', JSON.stringify(rewardJSON), function (err) {
+        fs.writeFile('./Channel/channelpoints/rewards.json', JSON.stringify(rewardJSON), function (err) {
             if (err) throw err;
         });
     } catch (e) {
