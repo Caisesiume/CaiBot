@@ -1,5 +1,6 @@
 const Utils = require("../../utils/TimeHandler");
-module.exports.listen = async function(channelSettings,chatClient,listOfCommands) {
+const {getDuration} = require("../../utils/TimeHandler");
+module.exports.listen = async function(channelSettings,chatClient) {
     let commandsEnabled = channelSettings.getCommandSettings().isEnabled();
     if (commandsEnabled) {
         let listOfCommands= channelSettings.commands.commandList;
@@ -20,7 +21,9 @@ async function startListen(channelSettings,map,chatClient) {
                 if (map.has(initialWord)) {
                     let command = map.get(initialWord);
                     if (!command.isOnCooldown() && (userRank >= command.getPermission())){
-                        chatClient.say(channel,command.getResponse())
+                        let response = `@${msg.userInfo.displayName}, ${command.getResponse()}`
+                        chatClient.say(channel,response);
+                        console.log(`${channel} | ${Utils.getDateHHMMSS()} |  ${command.getCommandName()} | Used by ${msg.userInfo.displayName}`)
                         command.setHasCooldown(true);
                         setTimeout(function () { command.setHasCooldown(false);},command.getCooldown());
                     }
@@ -34,7 +37,7 @@ async function startListen(channelSettings,map,chatClient) {
 
 /**
  * @param msgData - meta data from twitch with all info about the msg and sending user
- * @returns {number} The rank of the user. 3 = moderator, 2 = vip, 1 = subscriber, 0 = nothing
+ * @returns {number} The rank of the user. 3 = moderator, 2 = vip, 1 = subscriber, 0 = none
  */
 function getUserRank(msgData){
     if(msgData.userInfo.isMod){

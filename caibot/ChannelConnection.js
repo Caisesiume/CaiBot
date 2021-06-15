@@ -4,7 +4,7 @@ const Utils = require('./utils');
 const TwitchChannel = require('./Channel/TwitchChannel');
 const ModActions = require("./Channel/moderation/ModActions");
 const Commands = require("./Channel/commands/CommandListener");
-
+const GlobalCommands = require("./Channel/commands/GlobalCommands");
 
 const PATH_CHANNELS = './channels.json';
 let botChannels = {};
@@ -18,15 +18,15 @@ module.exports.connectToChannels = async function (channelChunkSize, joinInterva
     botChannels.channel_count = currentlyRunningChannels.length;
     setInterval(FileHandler.writeUpdatedChannels, 3000, PATH_CHANNELS, botChannels); //auto save to disk every 60s
 
-    console.log(Utils.TimeHandler.getDateHHMMSS(new Date)+ " | Connecting to Twitch");
+    console.log(Utils.TimeHandler.getDateHHMMSS()+ " | Connecting to Twitch");
     await chatClient.connect();
-    console.log(Utils.TimeHandler.getDateHHMMSS(new Date) + " | Connected to Twitch");
+    console.log(Utils.TimeHandler.getDateHHMMSS() + " | Connected to Twitch");
     await chatClient.waitForRegistration();
 
     channelChunks = await Utils.ArraySplitter.channelArraySplitter(channelChunkSize, currentlyRunningChannels);
     await channelChunkProvider(channelChunks, joinInterval)
     await getModeratorsForAll();
-    //setTimeout(joinNewChannel, joinInterval, "#zarosduck"); //TODO remove
+    await GlobalCommands.listenGlobal(chatClient);
 
     async function channelChunkProvider(channelChunks, joinInterval) {
         for (let x = 0; x < channelChunks.length; x++) {
@@ -40,14 +40,14 @@ module.exports.connectToChannels = async function (channelChunkSize, joinInterva
         const channelKeys = Object.keys(channelsToBeJoined);
         for (let channel of channelKeys) {
             if (isValidKey(channelsToBeJoined[channel])) {
-                console.log(Utils.TimeHandler.getDateHHMMSS(new Date)+ " | Joining channel:", channelsToBeJoined[channel]);
+                console.log(Utils.TimeHandler.getDateHHMMSS()+ " | Joining channel:", channelsToBeJoined[channel]);
                 await chatClient.join(channelsToBeJoined[channel]);
                 let newChannelObj = await reCreateChannelObject(botChannels.joined_channels[channel]); //Recreates objects from JSON
                 await newChannelObj.moderationSettings.setFilters(botChannels.joined_channels[channel].moderationSettings)
                 await newChannelObj.commands.setCommands(botChannels.joined_channels[channel].commands)
                 await startListener(newChannelObj);
             } else {
-                console.log(Utils.TimeHandler.getDateHHMMSS(new Date) + " | Joining channel failed: " + channelsToBeJoined[channel] + " ![key]");
+                console.log(Utils.TimeHandler.getDateHHMMSS() + " | Joining channel failed: " + channelsToBeJoined[channel] + " ![key]");
             }
         }
     }
@@ -59,7 +59,7 @@ module.exports.connectToChannels = async function (channelChunkSize, joinInterva
 
     async function getModeratorsForAll() {
         for (const channelsToJoinElement of botChannels.joined_channels) {
-            console.log(Utils.TimeHandler.getDateHHMMSS(new Date) + " | Getting Mod List for: ", channelsToJoinElement.channel_key);
+            console.log(Utils.TimeHandler.getDateHHMMSS() + " | Getting Mod List for: ", channelsToJoinElement.channel_key);
             channelsToJoinElement.mods = await chatClient.getMods(channelsToJoinElement.channel_key);
         }
     }
@@ -80,10 +80,10 @@ module.exports.connectToChannels = async function (channelChunkSize, joinInterva
         if (!joinQueue.isEmpty()) { //joins the channel 1st in queue each 5s
             let channel_key = joinQueue.getFront();
             await chatClient.join(channel_key);
-            console.log(Utils.TimeHandler.getDateHHMMSS(new Date) + " | Joining channel:", channel_key);
+            console.log(Utils.TimeHandler.getDateHHMMSS() + " | Joining channel:", channel_key);
             addOperatingChannels(channel_key); //adds the channel to track it as a channel the bot is operating in
             await joinQueue.dequeue();
-            console.log(Utils.TimeHandler.getDateHHMMSS(new Date) + " | Getting Mod List for: ", channel_key);
+            console.log(Utils.TimeHandler.getDateHHMMSS() + " | Getting Mod List for: ", channel_key);
             let mods = await chatClient.getMods(channel_key);
             let newChannelObject = new TwitchChannel.TwitchChannel(channel_key,channel_key.split('#').join(''),0,mods,true,true)
             botChannels.joined_channels.push(newChannelObject); //adds the newly joined channel to the saved json structure
@@ -103,10 +103,10 @@ module.exports.connectToChannels = async function (channelChunkSize, joinInterva
         if (!(currentlyRunningChannels.includes(channel_key))) {
             joinQueue.enqueue(channel_key);
         } else {
-            console.log(Utils.TimeHandler.getDateHHMMSS(new Date) + " | Joining channel failed: " + channelKey + ", Already joined");
+            console.log(Utils.TimeHandler.getDateHHMMSS() + " | Joining channel failed: " + channelKey + ", Already joined");
         }
     } else {
-        console.log(Utils.TimeHandler.getDateHHMMSS(new Date) + " | Joining channel: " + channelKey + ", Invalid key");
+        console.log(Utils.TimeHandler.getDateHHMMSS() + " | Joining channel: " + channelKey + ", Invalid key");
     }
 }
 

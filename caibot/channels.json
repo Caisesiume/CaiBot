@@ -5,7 +5,7 @@
     "channel_key": "#caisesiume",
     "channel_name": "caisesiume",
     "messages": 0,
-    "mods": ["burritogirl", "caisesiumebot", "mrburnnnvevo", "nightbot", "pepegaclapbot", "r33hab_of", "ratirl", "rewardtts", "streamelements", "tsmtwolf", "uwubrandonuwu"],
+    "mods": ["burritogirl", "caisesiumebot", "mrburnnnvevo", "nightbot", "pepegaclapbot", "rewardtts", "streamelements", "tsmtwolf"],
     "moderationSettings": {
       "enabled": true,
       "filters": {
@@ -48,22 +48,27 @@
     },
     "commands": {
       "enabled": true,
-      "listOfCommands": [
-        {
-          "enabled": true,
-          "commandName": "!ping",
-          "response": "Pong! Bot uptime: xx:xx:xx",
-          "cooldown": 3000,
-          "permission": "everyone"
-        }
-      ]
+      "listOfCommands": [{
+        "enabled": true,
+        "commandName": "!ping2",
+        "response": "Pong! Bot uptime: yy:yy:yy",
+        "cooldown": 3000,
+        "permission": 0
+      }, {
+        "enabled": true,
+        "commandName": "!test",
+        "response": "Works!",
+        "cooldown": 3000,
+        "permission": 0
+      }]
     },
-    "recentTimeouts": []
+    "recentTimeouts": [],
+    "msgLog": {}
   }, {
     "channel_key": "#caisesiumebot",
     "channel_name": "caisesiumebot",
     "messages": 0,
-    "mods": ["a66i", "bigpapachenko", "bmxdmx", "burritogirl", "caisesiume", "champvalentine", "initoo", "mrburnnnvevo", "naturegoddess", "paulll", "pepegaclapbot", "pepegahek", "quadpodz", "zarosduck"],
+    "mods": ["a66i", "bigpapachenko", "bmxdmx", "burritogirl", "caisesiume", "champvalentine", "derspiegel_", "initoo", "naturegoddess", "paulll", "pepegaclapbot", "pepegahek", "quadpodz", "zarosduck"],
     "moderationSettings": {
       "enabled": true,
       "filters": {
@@ -106,16 +111,21 @@
     },
     "commands": {
       "enabled": true,
-      "listOfCommands": [
-        {
-          "enabled": true,
-          "commandName": "!ping",
-          "response": "Pong! Bot uptime: xx:xx:xx",
-          "cooldown": 3000,
-          "permission": "everyone"
-        }
-      ]
+      "listOfCommands": [{
+        "enabled": true,
+        "commandName": "!ping2",
+        "response": "Pong! Bot uptime: xx:xx:xx",
+        "cooldown": 10000,
+        "permission": 0
+      }, {
+        "enabled": true,
+        "commandName": "!t",
+        "response": "Works!",
+        "cooldown": 5000,
+        "permission": 0
+      }]
     },
-    "recentTimeouts": []
+    "recentTimeouts": [],
+    "msgLog": {}
   }]
 }
