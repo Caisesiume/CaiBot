@@ -1,5 +1,5 @@
 {
   "comment"      : "Insert here Application Client ID and Application Client Secret for associated bot",
-  "clientId"     : "Insert",
-  "clientSecret" : "Insert"
+  "clientId"     : "clientID here",
+  "clientSecret" : "clientSecret here"
 }

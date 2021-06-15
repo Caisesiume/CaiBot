@@ -2,8 +2,8 @@ const TwitchClient = require('twitch').default;
 const ChatClient = require('twitch-chat-client').default;
 const fs = require('fs-extra');
 
-const PATH_CLIENT = './client.json';
-const PATH_TOKENS = './tokens.json';
+const PATH_CLIENT = './Auth/client.json';
+const PATH_TOKENS = './Auth/tokens.json';
 /**
  * Keeps your bot authorized on twitch chat servers at all times with automatic
  * token updates.

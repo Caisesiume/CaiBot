@@ -1,6 +1,6 @@
 const ConnectToChannel = require('./ChannelConnection');
-const ChannelPointsListeners = require('./ChannelPointRedemptions');
-const Auth = require("./Auth");
+const ChannelPointsListeners = require('./Channel/channelpoints/ChannelPointRedemptions');
+const Auth = require("./Auth/Auth");
 
 (async () => {
     await onBotStartUp();

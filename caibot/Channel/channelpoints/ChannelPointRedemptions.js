@@ -1,6 +1,6 @@
-const FileHandler = require('./io-handler');
-const RegexHelper = require('./utils/regexs');
-const Utils = require('./utils');
+const FileHandler = require('../../utils/io-handler');
+const RegexHelper = require('../../utils/regexs');
+const Utils = require('../../utils');
 
 let knownCPRewards = new Map();
 

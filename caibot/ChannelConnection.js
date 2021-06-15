@@ -1,12 +1,12 @@
 const fs = require('fs-extra');
-const FileHandler = require('./io-handler');
+const FileHandler = require('./utils/io-handler');
 const Utils = require('./utils');
 const TwitchChannel = require('./Channel/TwitchChannel');
 const ModActions = require("./Channel/moderation/ModActions");
 const Commands = require("./Channel/commands/CommandListener");
 const GlobalCommands = require("./Channel/commands/GlobalCommands");
 
-const PATH_CHANNELS = './channels.json';
+const PATH_CHANNELS = './Channel/channels.json';
 let botChannels = {};
 let channelChunks = [];
 let currentlyRunningChannels = [];
