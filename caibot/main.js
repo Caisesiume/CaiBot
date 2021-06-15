@@ -6,14 +6,14 @@ const Auth = require("./Auth");
     await onBotStartUp();
     async function onBotStartUp() {
         const chatClient = await Auth.auth();
+        global.BOT_START_DATE = new Date();
         /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
          * 20 authenticate attempts per 10 seconds per user (200 for verified bots)  *
          * 20 join attempts per 10 seconds per user (2000 for verified bots)         *
          * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-        const channelChunkSize = 5; //amount of channels to join every joinInterval.
-        const joinInterval = 10000; //10s
-        await ConnectToChannel.connectToChannels(channelChunkSize,joinInterval,chatClient);
+        const CHUNK_SIZE = 5; //amount of channels to join every joinInterval.
+        const JOIN_INTERVAL = 10000; //10s
+        await ConnectToChannel.connectToChannels(CHUNK_SIZE,JOIN_INTERVAL,chatClient);
         await ChannelPointsListeners.channelPointsTracker(chatClient);
-
     }
 })();

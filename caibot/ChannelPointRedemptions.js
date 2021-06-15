@@ -22,7 +22,7 @@ module.exports.channelPointsTracker = async function (chatClient) {
     await importRewards();
     //Handles adding new CP rewards. CP = channel points
     chatClient.onPrivmsg(async (channel, user, message, msg) => {
-        let currentTime = Utils.TimeHandler.getDateHHMMSS(new Date);
+        let currentTime = Utils.TimeHandler.getDateHHMMSS();
         let managingAccess = (user.toLowerCase() === channel.split('#').join('').toLowerCase()) || msg.userInfo.isMod;
         try {
             let cpRewardID = msg.tags.get('custom-reward-id'); //gets the ID of the rewards from twitch.
@@ -47,7 +47,7 @@ module.exports.channelPointsTracker = async function (chatClient) {
 
     //Handles edits of rewards.
     chatClient.onPrivmsg(async (channel, user, message, msg) => {
-        let currentTime = Utils.TimeHandler.getDateHHMMSS(new Date);
+        let currentTime = Utils.TimeHandler.getDateHHMMSS();
         let managingAccess = (user.toLowerCase() === channel.split('#').join('').toLowerCase()) || msg.userInfo.isMod;
         try {
             let cpRewardID = msg.tags.get('custom-reward-id'); //gets the ID of the rewards from twitch.
@@ -71,7 +71,7 @@ module.exports.channelPointsTracker = async function (chatClient) {
 
     //Take action on
     chatClient.onPrivmsg(async (channel, user, message, msg) => {
-        let currentTime = Utils.TimeHandler.getDateHHMMSS(new Date);
+        let currentTime = Utils.TimeHandler.getDateHHMMSS();
         let twitchUsername = msg.userInfo.displayName; //To get correct capitalization
         try {
             let cpRewardID = msg.tags.get('custom-reward-id');

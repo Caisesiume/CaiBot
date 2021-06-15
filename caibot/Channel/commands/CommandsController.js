@@ -1,14 +1,13 @@
 const {Command} = require("./Command");
-
 class CommandsController{
     enabled;
     commandList;
     constructor(enabled) {
-        this.commandList = [];
         this.enabled = enabled;
+        this.commandList = [];
     }
 
-    setCommands(commandsJson) {
+    async setCommands(commandsJson) {
         let listOfCommands = commandsJson.listOfCommands;
         for (let command of listOfCommands) {
             let newCommand = new Command(

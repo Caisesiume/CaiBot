@@ -12,7 +12,7 @@ async function startListen(channelSettings,chatClient) {
             //if message is from the channel in fact & is not mod & is not the broadcaster.
             if (channel === channelSettings.channel_key && !msg.userInfo.isMod && user.toLowerCase() !== channelSettings.channel_name) {
 
-                let currentTime = Utils.getDateHHMMSS(new Date());
+                let currentTime = Utils.getDateHHMMSS();
                 let twitchUsername = msg.userInfo.displayName;
                 let actionDetails = await channelSettings.moderationSettings.checkFilters(message,user,msg);
                 await channelSettings.addToTempLog({message: user});
