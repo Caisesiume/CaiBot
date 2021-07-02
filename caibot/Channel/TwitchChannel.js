@@ -32,6 +32,10 @@ class TwitchChannel{
         return this.commands;
     }
 
+    getLog(){
+        return this.msgLog;
+    }
+
     /**
      * Adds recently timed out users to a "probation" list.
      * After (timeoutLength * 15) * 1000 ms the user is removed from the list.
@@ -78,12 +82,16 @@ class TwitchChannel{
 
 
     /**
-     * Adds elements to the channels temp message log. This is mostly used for look back purpose
-     * when using nuke commands.
+     * Adds elements to the channels temp message log. This is used to keep a log of the recent messages.
+     *
      * @param element needs be following: {message:user} where the message is the key.
      */
-    async addToTempLog(element) {
+    async addToTempLog(msgToAdd, sendingUser) {
         //if current size < max size
+        let element = {
+            "message": msgToAdd,
+            "sender": sendingUser
+        }
         if (this.msgLog.length() < this.msgLog.getSize()) {
             await this.msgLog.enqueue(element)
         } else {

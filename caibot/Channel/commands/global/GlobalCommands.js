@@ -1,0 +1,36 @@
+const {getDuration} = require("../../../utils/TimeHandler");
+const nukeHelp = require("./bots");
+module.exports.listenGlobal = async function(channelObjList,chatClient) {
+    await startGlobalListen(channelObjList,chatClient);
+}
+
+async function startGlobalListen(channelObjList, chatClient) {
+    chatClient.onPrivmsg(async (channel, user, message, msg) => {
+        try {
+            if (message === "!ping") {
+                let botUptime = getDuration(new Date() - BOT_START_DATE)
+                chatClient.say(channel,`@${msg.userInfo.displayName}, Pong! Bot has been running for ${botUptime}`)
+            } else if (msg.userInfo.isMod && /(!nuke)/gmi.exec(message)) {
+                //console.log(channelSettings.joined_channels)
+                let regex = /!nuke (?<phrase>.{1,50}) (?<action>\d{1,6}|ban) (?<lookAhead>\d{1,6})/gmi;
+                let nukeTest = regex.exec(message);
+                if (nukeTest !== null) {
+                    let nukedMsg = nukeTest.groups.phrase;
+                    let actionType = nukeTest.groups.action;
+                    let lookAheadTime = nukeTest.groups.lookAhead*1000;
+                    const channelKeys = Object.keys(channelObjList);
+                    for (let channelIndex of channelKeys) {
+                        if (channelObjList[channelIndex].channel_key === channel) {
+                            await nukeHelp.checkMsgs(chatClient, channelObjList[channelIndex],nukedMsg,actionType,lookAheadTime);
+                        }
+                    }
+                }
+                //
+            } else if (message === "!log") {
+                channelObjList.getLog().print();
+            }
+        }  catch (e) {
+            console.log(e);
+        }
+    });
+}
