@@ -17,7 +17,7 @@ async function startListen(channelSettings,map,chatClient) {
         try {
             if (channel === channelSettings.channel_key){
                 let initialWord = message.split(" ")[0]
-                let userRank = getUserRank(msg);
+                let userRank = getUserRank(msg); //saves the sending users rank
                 if (map.has(initialWord)) {
                     let command = map.get(initialWord);
                     if (!command.isOnCooldown() && (userRank >= command.getPermission())){

@@ -65,7 +65,7 @@ class Ascii extends ModerationFilter{
             ratio = ratioWithoutEmojis;
         }
         if ((((message.length > 240) && ratio > 0.8) || (message.length > 7 && ratio > 0.87)) || emojisInMessageCount > 149) {
-            if (!(msg.userInfo.isVip)) {
+            if (!(msg.userInfo.isVip) && !(msg.isCheer())) {
                 return [true, this.getActionType(), reason];
             }
         }

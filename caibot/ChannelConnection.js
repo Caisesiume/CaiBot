@@ -4,12 +4,13 @@ const Utils = require('./utils');
 const TwitchChannel = require('./Channel/TwitchChannel');
 const ModActions = require("./Channel/moderation/ModActions");
 const Commands = require("./Channel/commands/CommandListener");
-const GlobalCommands = require("./Channel/commands/GlobalCommands");
+const GlobalCommands = require("./Channel/commands/global/GlobalCommands");
 
 const PATH_CHANNELS = './Channel/channels.json';
 let botChannels = {};
 let channelChunks = [];
 let currentlyRunningChannels = [];
+let channelObjects = [];
 let joinQueue = new Utils.Queue.Queue();
 
 module.exports.connectToChannels = async function (channelChunkSize, joinInterval,chatClient) {
@@ -26,7 +27,6 @@ module.exports.connectToChannels = async function (channelChunkSize, joinInterva
     channelChunks = await Utils.ArraySplitter.channelArraySplitter(channelChunkSize, currentlyRunningChannels);
     await channelChunkProvider(channelChunks, joinInterval)
     await getModeratorsForAll();
-    await GlobalCommands.listenGlobal(chatClient);
 
     async function channelChunkProvider(channelChunks, joinInterval) {
         for (let x = 0; x < channelChunks.length; x++) {
@@ -50,6 +50,7 @@ module.exports.connectToChannels = async function (channelChunkSize, joinInterva
                 console.log(Utils.TimeHandler.getDateHHMMSS() + " | Joining channel failed: " + channelsToBeJoined[channel] + " ![key]");
             }
         }
+        await GlobalCommands.listenGlobal(channelObjects,chatClient);
     }
 
     async function reCreateChannelObject(jsonStructure) {
@@ -68,6 +69,10 @@ module.exports.connectToChannels = async function (channelChunkSize, joinInterva
         if (!currentlyRunningChannels.includes(channelKey)) {
             currentlyRunningChannels.push(channelKey);
         }
+    }
+
+    async function addToChannelObjList(channelObject) {
+        channelObjects.push(channelObject);
     }
 
     chatClient.onPrivmsg(async (channel, user, message, msg) => {
@@ -94,6 +99,7 @@ module.exports.connectToChannels = async function (channelChunkSize, joinInterva
     async function startListener(channelObject) {
         await ModActions.listen(channelObject,chatClient);
         await Commands.listen(channelObject,chatClient);
+        await addToChannelObjList(channelObject);
     }
 };
 
