@@ -1,11 +1,15 @@
+const Utils = require("../../../utils/TimeHandler");
 const {LookAhead} = require("./LookAhead");
 exports.checkMsgs = async function(chatClient, channelSettings, removedMsg,actionType, lookAheadDuration) {
     let lookBack = [];
     let log = channelSettings.getLog();
     let channel = channelSettings.channel_key;
+    let phrase = `${removedMsg}\\b`
+    let nukeRegex = new RegExp(phrase,'gmi')
 
     while (!log.isEmpty()) {
-        if (log.getFront().message.toLowerCase() === removedMsg) {
+        let messageObj = log.getFront().message;
+        if (nukeRegex.test(messageObj)) {
             let front = log.getFront();
             lookBack.push(front.sender);
             log.dequeue()
@@ -20,7 +24,8 @@ exports.checkMsgs = async function(chatClient, channelSettings, removedMsg,actio
 async function start(chatClient, lookBack, actionType, channel ,msg, lookAheadDuration) {
     let lookAheadObj = new LookAhead(chatClient,actionType, channel ,msg);
     lookAheadObj.check();
-    console.log("nuke started")
+    let currentTime = Utils.getDateHHMMSS();
+    console.log(`${channel} | ${currentTime} | Nuke for ${msg} started! Look back nuke : ${lookBack.length}`)
     if (lookBack.length > 0) {
         let isNum = /^\d+$/.test(actionType);
         for (let user of lookBack) {

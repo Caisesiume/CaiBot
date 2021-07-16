@@ -15,7 +15,7 @@ async function startListen(channelSettings,chatClient) {
                 let currentTime = Utils.getDateHHMMSS();
                 let twitchUsername = msg.userInfo.displayName;
                 let actionDetails = await channelSettings.moderationSettings.checkFilters(message,user,msg);
-                await channelSettings.addToTempLog(message,user);
+                await channelSettings.addToTempLog(message,user,msg);
 
                 if (actionDetails !== undefined) {
                     let takeAction = actionDetails[0];

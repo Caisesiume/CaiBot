@@ -85,18 +85,21 @@ class TwitchChannel{
      * Adds elements to the channels temp message log. This is used to keep a log of the recent messages.
      *
      * @param element needs be following: {message:user} where the message is the key.
+     * @param msg is the meta data of the message, used to check if the message is from a moderator or not.
      */
-    async addToTempLog(msgToAdd, sendingUser) {
+    async addToTempLog(msgToAdd, sendingUser, msg) {
         //if current size < max size
-        let element = {
-            "message": msgToAdd,
-            "sender": sendingUser
-        }
-        if (this.msgLog.length() < this.msgLog.getSize()) {
-            await this.msgLog.enqueue(element)
-        } else {
-            await this.msgLog.dequeue();
-            await this.addToTempLog(element);
+        if (!msg.userInfo.isMod) {
+            let element = {
+                "message": msgToAdd,
+                "sender": sendingUser
+            }
+            if (this.msgLog.length() < this.msgLog.getSize()) {
+                await this.msgLog.enqueue(element)
+            } else {
+                await this.msgLog.dequeue();
+                await this.addToTempLog(element);
+            }
         }
     }
 
