@@ -10,8 +10,7 @@ async function startGlobalListen(channelObjList, chatClient) {
             if (message === "!ping") {
                 let botUptime = getDuration(new Date() - BOT_START_DATE)
                 chatClient.say(channel,`@${msg.userInfo.displayName}, Pong! Bot has been running for ${botUptime}`)
-            } else if (msg.userInfo.isMod && /(!nuke)/gmi.exec(message)) {
-                //console.log(channelSettings.joined_channels)
+            } else if ((msg.userInfo.isMod || msg.tags.get('room-id') === msg.tags.get('user-id')) && /(!nuke)/gmi.exec(message)) {
                 let regex = /!nuke (?<phrase>.{1,50}) (?<action>\d{1,6}|ban) (?<lookAhead>\d{1,6})/gmi;
                 let nukeTest = regex.exec(message);
                 if (nukeTest !== null) {
@@ -27,7 +26,8 @@ async function startGlobalListen(channelObjList, chatClient) {
                 }
                 //
             } else if (message === "!log") {
-                channelObjList.getLog().print();
+                //channelObjList.getLog().print();
+                console.log(msg.tags)
             }
         }  catch (e) {
             console.log(e);

@@ -18,7 +18,7 @@ class Moderation {
 
     async checkFilters(message,user,msg) {
         if (this.filters.ascii.isEnabled()) {
-            let ascii = await this.filters.ascii.checkIfAscii(message);
+            let ascii = await this.filters.ascii.checkIfAscii(message,msg);
             if (ascii !== undefined) {
                 return ascii;
             }
