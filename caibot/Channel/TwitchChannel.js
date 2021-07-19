@@ -98,7 +98,7 @@ class TwitchChannel{
                 await this.msgLog.enqueue(element)
             } else {
                 await this.msgLog.dequeue();
-                await this.addToTempLog(element);
+                await this.addToTempLog(msgToAdd,sendingUser,msg);
             }
         }
     }
