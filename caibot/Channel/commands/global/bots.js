@@ -1,4 +1,5 @@
 const Utils = require("../../../utils/TimeHandler");
+const {ArraySplitter} = require("../../../utils/ArraySplitter");
 const {LookAhead} = require("./LookAhead");
 exports.checkMsgs = async function(chatClient, channelSettings, removedMsg,actionType, lookAheadDuration) {
     let lookBack = [];
@@ -6,6 +7,7 @@ exports.checkMsgs = async function(chatClient, channelSettings, removedMsg,actio
     let channel = channelSettings.channel_key;
     let phrase = `${removedMsg}\\b`
     let nukeRegex = new RegExp(phrase,'gmi')
+    let currentTime = Utils.getDateHHMMSS();
 
     while (!log.isEmpty()) {
         let messageObj = log.getFront().message;
@@ -17,15 +19,24 @@ exports.checkMsgs = async function(chatClient, channelSettings, removedMsg,actio
             log.dequeue()
         }
     }
+    let lookBackChunks = await ArraySplitter(4, lookBack)
+    console.log(lookBackChunks)
 
-    await start(chatClient, lookBack, actionType, channel ,removedMsg, lookAheadDuration);
+    let lookAheadObj = new LookAhead(chatClient,actionType, channel ,removedMsg);
+    lookAheadObj.check();
+    setTimeout(function (lookAhead) {
+        lookAhead.deactivate();
+    }, lookAheadDuration, lookAheadObj);
+
+    console.log(`${channel} | ${currentTime} | Nuke for ${removedMsg} started! Users found: ${lookBack.length}`)
+    for (let z = 0; z < lookBackChunks.length; z++) {
+        let interval = z * 1000
+        await setTimeout(lookBackHandler, interval, chatClient,lookBackChunks[z],actionType, channel ,removedMsg);
+    }
+
 }
 
-async function start(chatClient, lookBack, actionType, channel ,msg, lookAheadDuration) {
-    let lookAheadObj = new LookAhead(chatClient,actionType, channel ,msg);
-    lookAheadObj.check();
-    let currentTime = Utils.getDateHHMMSS();
-    console.log(`${channel} | ${currentTime} | Nuke for ${msg} started! Look back nuke : ${lookBack.length}`)
+async function lookBackHandler(chatClient, lookBack, actionType, channel ,msg) {
     if (lookBack.length > 0) {
         let isNum = /^\d+$/.test(actionType);
         for (let user of lookBack) {
@@ -36,8 +47,4 @@ async function start(chatClient, lookBack, actionType, channel ,msg, lookAheadDu
             }
         }
     }
-
-    setTimeout(function (lookAhead) {
-        lookAhead.deactivate();
-    }, lookAheadDuration, lookAheadObj);
 }

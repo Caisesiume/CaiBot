@@ -33,11 +33,13 @@ class LookAhead {
 
     action(user) {
         let isNum = /^\d+$/.test(this.actionType);
+        let currentTime = Utils.getDateHHMMSS();
         if (isNum) {
             this.chatClient.timeout(this.actionChannel,user,this.actionType,`nuked by moderator | nuked phrase: ${this.msg}`)
         } else if (this.actionType === 'ban') {
             this.chatClient.ban(this.actionChannel,user,`nuked by moderator | nuked phrase: ${this.msg}`)
         }
+        console.log(`${this.actionChannel} | ${currentTime} | ${user} nuked by moderator`)
     }
 }
 module.exports.LookAhead = LookAhead;
