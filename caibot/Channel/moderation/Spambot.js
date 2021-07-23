@@ -9,7 +9,7 @@ class Spambot extends ModerationFilter{
     checkIfSpambot(message,msg) {
         if (!(msg.userInfo.isSubscriber || msg.userInfo.isVip)) {
             if (followBotFilter.exec(message)) {
-                this.reason = `${msg.userInfo.displayName} Auto detect [botSpam] | Banned for: ${message}`;
+                this.reason = `Auto detect [botSpam] | Banned for: ${message}`;
                 return [true, this.getActionType(), this.reason];
             }
         }

@@ -10,6 +10,7 @@ const Auth = require("./Auth/Auth");
         /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
          * 20 authenticate attempts per 10 seconds per user (200 for verified bots)  *
          * 20 join attempts per 10 seconds per user (2000 for verified bots)         *
+         * https://dev.twitch.tv/docs/irc/guide                                      *
          * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
         const CHUNK_SIZE = 5; //amount of channels to join every joinInterval.
         const JOIN_INTERVAL = 10000; //10s

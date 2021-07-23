@@ -12,7 +12,7 @@ class Moderation {
             "selfpromo": new SelfPromotion("selfpromo","Checks if the message is self promotion (linking own channel)", true, false, 600),
             "spambot": new Spambot("spambot","Bans users posting bot spam including bigfollow.com link",true,true,0),
             "nword": new NWordFilter("nword","Bans users using the nword in any context",true,true,0),
-            "fword": new FWordFilter("fword","Times out users using the f word in any context", true,false,3600)
+            "fword": new FWordFilter("fword","Times out users using the f word in any context", true,false,86400)
         }
     };
 

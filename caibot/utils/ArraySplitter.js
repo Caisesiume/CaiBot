@@ -1,18 +1,18 @@
 /**
- * Splits the full list of channels into smaller chunks of channels,
+ * Splits an array of items into smaller chunks items,
  * creating a two dimensional array.
  * @param channelChunkSize - the size of the chunks to join at a time. Keep join limits on Twitch in mind.
- * @param botChannels - the full json structure
- * including the channels to join under botChannels.joined_channels
- * @returns multi dimensional array containing the channelChunks. The chunks contains IRC keys e.g '#channel'
+ * @param channelsArray - the full array that you want to split
+ *
+ * @returns multi dimensional array containing the channelChunks.'
  */
-exports.channelArraySplitter = async function (channelChunkSize, channelsArray) {
+exports.ArraySplitter = async function (channelChunkSize, channelsArray) {
     const listOfChannelChunks = [];
     let chunkSize = channelChunkSize;
     let channelListLength = channelsArray.length;
     let channelsJoined = 0;
     let latestArrayBreak = 0;
-    for (let i = 1; i< channelListLength; i++) {
+    for (let i = 1; i<= channelListLength; i++) {
         if (i % channelChunkSize === 0) {
             let splitArrayOfObjects = channelsArray.slice(latestArrayBreak,i);
             let chunkArray = [];

@@ -24,7 +24,7 @@ module.exports.connectToChannels = async function (channelChunkSize, joinInterva
     console.log(Utils.TimeHandler.getDateHHMMSS() + " | Connected to Twitch");
     await chatClient.waitForRegistration();
 
-    channelChunks = await Utils.ArraySplitter.channelArraySplitter(channelChunkSize, currentlyRunningChannels);
+    channelChunks = await Utils.ArraySplitter.ArraySplitter(channelChunkSize, currentlyRunningChannels);
     await channelChunkProvider(channelChunks, joinInterval)
     await getModeratorsForAll();
 
