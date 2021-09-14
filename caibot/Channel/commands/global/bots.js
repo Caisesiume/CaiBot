@@ -48,6 +48,5 @@ async function lookBackHandler(chatClient, lookBack, actionType, channel ,msg) {
                 chatClient.timeout(channel, user, actionType, `nuked by moderator | nuked phrase: ${msg}`);
             }
         }
-        console.log("_________")
     }
 }
