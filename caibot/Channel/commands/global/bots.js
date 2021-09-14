@@ -13,7 +13,9 @@ exports.checkMsgs = async function(chatClient, channelSettings, removedMsg,actio
         let messageObj = log.getFront().message;
         if (nukeRegex.test(messageObj)) {
             let front = log.getFront();
-            lookBack.push(front.sender);
+            if(!(lookBack.includes(front.sender))) {
+                lookBack.push(front.sender);
+            }
             log.dequeue()
         } else {
             log.dequeue()
@@ -30,7 +32,7 @@ exports.checkMsgs = async function(chatClient, channelSettings, removedMsg,actio
 
     console.log(`${channel} | ${currentTime} | Nuke for ${removedMsg} started! Users found: ${lookBack.length}`)
     for (let z = 0; z < lookBackChunks.length; z++) {
-        let interval = z * 1000
+        let interval = z * 2250 //Reasonable interval to comply with twitch rate limits
         await setTimeout(lookBackHandler, interval, chatClient,lookBackChunks[z],actionType, channel ,removedMsg);
     }
 
@@ -38,7 +40,7 @@ exports.checkMsgs = async function(chatClient, channelSettings, removedMsg,actio
 
 async function lookBackHandler(chatClient, lookBack, actionType, channel ,msg) {
     if (lookBack.length > 0) {
-        let isNum = /^\d+$/.test(actionType);
+        let isNum = /^\d+$/.test(actionType); //checks if nuke ban / nuke timeout
         for (let user of lookBack) {
             if (actionType === 'ban') {
                 await chatClient.ban(channel, user, `nuked by moderator | nuked phrase: ${msg}`)
@@ -46,5 +48,6 @@ async function lookBackHandler(chatClient, lookBack, actionType, channel ,msg) {
                 chatClient.timeout(channel, user, actionType, `nuked by moderator | nuked phrase: ${msg}`);
             }
         }
+        console.log("_________")
     }
 }
