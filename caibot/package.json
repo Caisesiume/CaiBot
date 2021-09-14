@@ -1,12 +1,17 @@
 {
   "name": "caibot",
-  "version": "1.0.0",
+  "version": "0.4.7",
   "main": "main.js",
   "private": true,
   "scripts": {
-    "start": "main.js"
+    "start": "node main.js"
   },
   "dependencies": {
-    "twitch-js": "2.0.0-beta.42"
+    "twitch-js": "2.0.0-beta.42",
+    "twitch": "^3.7.1",
+    "twitch-auth": "^1.0.3",
+    "twitch-chat-client": "^3.7.3",
+    "twitch-pubsub-client": "^3.7.2",
+    "fs-extra": "^8.1.0"
   }
 }
