@@ -30,8 +30,8 @@ async function startListen(channelSettings,chatClient) {
 
                         } else {
                             let timeoutLength2 = await channelSettings.setNewTimeout(user,timeoutLength)
-                            await chatClient.timeout(channel, `${user} ${timeoutLength2} ${reason} | `)
                             console.log(channel + ` | ${currentTime} | #TIMEOUT ${twitchUsername} timeout for ${timeoutLength2}s. Reason: ${reason}`);
+                            await chatClient.timeout(channel, `${user} ${timeoutLength2} ${reason} | `)
                         }
 
                     }

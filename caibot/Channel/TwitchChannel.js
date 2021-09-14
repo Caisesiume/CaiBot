@@ -54,7 +54,7 @@ class TwitchChannel{
     async removeFromTimeOutList(user) {
         console.log(user)
         console.log(this.recentTimeouts)
-        let indexOfUser = this.recentTimeouts.findIndex(user);
+        let indexOfUser = this.recentTimeouts.indexOf(user);
         if (indexOfUser > -1) {
             this.recentTimeouts.splice(indexOfUser, 1);
         }
