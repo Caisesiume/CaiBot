@@ -20,10 +20,13 @@ Some bot features to be implemented:
 *This page is currently under development, and won't be complete for a while*
 
 ## Technical info
-The bot is node.js based and connects to twitch using the Twitch.js API.
+The bot is node.js based(12.x) and connects to twitch using the Twitch.js API.
 
-In order to use this bot, you will have to get your bots tokens and clients. 
-The current state of the bot is not useful at all, just FYI.
+By using 'npm install' you install all the needed node modules.
 
+In order to use this bot, you will have to get your bot account's tokens and clients.
+Swap the placeholders in tokens.json and client.json with your real ones.
 
-I am kind of a noob with some coding parts, so a lot of the code will probably be questionable in terms of how it's written.
+When you set up the authorization part, you can simply use 'npm start' to start the bot.
+
+The current state of the bot is sort of limited. It has a few cool features that works but it's not at all free from issues, just a heads up.
