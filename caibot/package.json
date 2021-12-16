@@ -1,10 +1,10 @@
 {
   "name": "caibot",
   "version": "0.4.7",
-  "main": "main.js",
+  "main": "index.js",
   "private": true,
   "scripts": {
-    "start": "node main.js"
+    "start": "node index.js"
   },
   "author": "Caisesiume",
   "license": "MIT",
