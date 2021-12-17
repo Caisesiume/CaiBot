@@ -4,7 +4,7 @@ This is a hobby project about twitch chat moderation which turned out much large
 
 You can find more about the bot on my [twitch page](https://www.twitch.tv/caisesiume/about)
 
-This page is where you will be able to find the rebuilt & better version of the currently running bot.
+This page is the legacy and not completed version of the bot. This is not where you will be able to find the currently running bot.
 
 For now, you can find all commands and similar in the [GitHub wiki](https://github.com/Caisesiume/CaiBot/wiki/Home).
 
