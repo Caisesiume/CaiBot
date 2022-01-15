@@ -1,6 +1,7 @@
 const Moderation = require("./moderation/Moderation");
 const ModActions = require("./moderation/ModActions");
-const CommandsController = require("./commands/CommandsController");
+const CommandsController = require("./interaction/commands/CommandsController");
+const Reaction = require("./interaction/reaction/ReactionController");
 const {Queue} = require("../utils");
 
 class TwitchChannel{
@@ -10,16 +11,18 @@ class TwitchChannel{
     mods = [];
     moderationSettings;
     commands;
+    reactions;
     recentTimeouts = [];
     msgLog = {};
 
-    constructor(channel_key, channel_name, messages, mods, moderationSettings, hasCommands) {
+    constructor(channel_key, channel_name, messages, mods, moderationSettings, hasCommands, hasReactions) {
         this.channel_key = channel_key;
         this.channel_name = channel_name;
         this.messages = messages;
         this.mods = mods;
         this.moderationSettings = new Moderation.Moderation(moderationSettings);
         this.commands = new CommandsController.CommandsController(hasCommands);
+        this.reactions = new Reaction.ReactionController(hasReactions)
         this.recentTimeouts = [];
         this.msgLog = new Queue.Queue();
     }
@@ -30,6 +33,10 @@ class TwitchChannel{
 
     getCommandSettings(){
         return this.commands;
+    }
+
+    getReactionSettings(){
+        return this.reactions;
     }
 
     getLog(){
@@ -52,11 +59,15 @@ class TwitchChannel{
      * @param user the user to be removed
      */
     async removeFromTimeOutList(user) {
-        console.log(user)
-        console.log(this.recentTimeouts)
-        let indexOfUser = this.recentTimeouts.findIndex(user);
-        if (indexOfUser > -1) {
-            this.recentTimeouts.splice(indexOfUser, 1);
+        try{
+            console.log(user)
+            console.log(this.recentTimeouts)
+            let indexOfUser = this.recentTimeouts.findIndex(user);
+            if (indexOfUser > -1) {
+                this.recentTimeouts.splice(indexOfUser, 1);
+            }
+        } catch(err) {
+            console.log(err);
         }
     }
 
@@ -67,16 +78,20 @@ class TwitchChannel{
      * @returns {number|*} the final timeout length a user will get.
      */
     async setNewTimeout(user,timeoutLength) {
-        if (this.recentTimeouts.includes(user.toLowerCase())) {
-            let timeoutLengthMultiply = timeoutLength*100;
-            if (timeoutLengthMultiply < 86401) {
-                return timeoutLengthMultiply;
+        try {
+            if (this.recentTimeouts.includes(user.toLowerCase())) {
+                let timeoutLengthMultiply = timeoutLength*100;
+                if (timeoutLengthMultiply < 86401) {
+                    return timeoutLengthMultiply;
+                } else {
+                    return 86400; //24H
+                }
             } else {
-                return 86400; //24H
+                await this.addToTimeoutList(user,timeoutLength);
+                return timeoutLength;
             }
-        } else {
-            await this.addToTimeoutList(user,timeoutLength);
-            return timeoutLength;
+        } catch (err) {
+            console.log(err);
         }
     }
 
@@ -94,7 +109,7 @@ class TwitchChannel{
                 "message": msgToAdd,
                 "sender": sendingUser
             }
-            if (this.msgLog.length() < this.msgLog.getSize()) {
+            if (this.getLog().length() < this.msgLog.getSize()) {
                 await this.msgLog.enqueue(element)
             } else {
                 await this.msgLog.dequeue();

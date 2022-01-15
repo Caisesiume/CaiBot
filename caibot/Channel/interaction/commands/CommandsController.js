@@ -8,7 +8,8 @@ class CommandsController{
     }
 
     async setCommands(commandsJson) {
-        let listOfCommands = commandsJson.listOfCommands;
+        
+        let listOfCommands = commandsJson.commandList;
         for (let command of listOfCommands) {
             let newCommand = new Command(
                 command.enabled,

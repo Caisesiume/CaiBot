@@ -3,8 +3,9 @@ const FileHandler = require('./utils/io-handler');
 const Utils = require('./utils');
 const TwitchChannel = require('./Channel/TwitchChannel');
 const ModActions = require("./Channel/moderation/ModActions");
-const Commands = require("./Channel/commands/CommandListener");
-const GlobalCommands = require("./Channel/commands/global/GlobalCommands");
+const Commands = require("./Channel/interaction/commands/CommandListener");
+const GlobalCommands = require("./Channel/interaction/global/GlobalCommands");
+const Reaction = require('./Channel/interaction/reaction/SubReactions');
 
 const PATH_CHANNELS = './Channel/channels.json';
 let botChannels = {};
@@ -17,7 +18,13 @@ module.exports.connectToChannels = async function (channelChunkSize, joinInterva
     botChannels = JSON.parse(await fs.readFile(PATH_CHANNELS,'UTF-8'));
     currentlyRunningChannels = FileHandler.getOperatingChannels(botChannels.joined_channels); //saves all channels the bot is in
     botChannels.channel_count = currentlyRunningChannels.length;
-    setInterval(FileHandler.writeUpdatedChannels, 3000, PATH_CHANNELS, botChannels); //auto save to disk every 60s
+    setInterval(prepareUpdate, 3000, PATH_CHANNELS, botChannels, channelObjects); //auto save to disk every 60s
+
+    function prepareUpdate(PATH, botChannels, channelObjects) {
+        botChannels.joined_channels = channelObjects
+        console.log(botChannels.joined_channels[1].reactions);
+        FileHandler.writeUpdatedChannels(PATH_CHANNELS,botChannels)
+    }
 
     console.log(Utils.TimeHandler.getDateHHMMSS()+ " | Connecting to Twitch");
     await chatClient.connect();
@@ -45,6 +52,7 @@ module.exports.connectToChannels = async function (channelChunkSize, joinInterva
                 let newChannelObj = await reCreateChannelObject(botChannels.joined_channels[channel]); //Recreates objects from JSON
                 await newChannelObj.moderationSettings.setFilters(botChannels.joined_channels[channel].moderationSettings)
                 await newChannelObj.commands.setCommands(botChannels.joined_channels[channel].commands)
+                await newChannelObj.reactions.setReaction(botChannels.joined_channels[channel].reactions)
                 await startListener(newChannelObj);
             } else {
                 console.log(Utils.TimeHandler.getDateHHMMSS() + " | Joining channel failed: " + channelsToBeJoined[channel] + " ![key]");
@@ -54,8 +62,9 @@ module.exports.connectToChannels = async function (channelChunkSize, joinInterva
     }
 
     async function reCreateChannelObject(jsonStructure) {
+        //console.log(jsonStructure);
         return new TwitchChannel.TwitchChannel(jsonStructure.channel_key, jsonStructure.channel_name,
-            jsonStructure.messages, jsonStructure.mods, jsonStructure.moderationSettings.enabled,jsonStructure.commands.enabled);
+            jsonStructure.messages, jsonStructure.mods, jsonStructure.moderationSettings.enabled,jsonStructure.commands.enabled,jsonStructure.reactions.enabled);
     }
 
     async function getModeratorsForAll() {
@@ -99,6 +108,7 @@ module.exports.connectToChannels = async function (channelChunkSize, joinInterva
     async function startListener(channelObject) {
         await ModActions.listen(channelObject,chatClient);
         await Commands.listen(channelObject,chatClient);
+        await Reaction.listenToSubs(channelObject,chatClient);
         await addToChannelObjList(channelObject);
     }
 };

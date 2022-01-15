@@ -1,5 +1,4 @@
-const Utils = require("../../utils/TimeHandler");
-const {getDuration} = require("../../utils/TimeHandler");
+const Utils = require("../../../utils/TimeHandler");
 module.exports.listen = async function(channelSettings,chatClient) {
     let commandsEnabled = channelSettings.getCommandSettings().isEnabled();
     if (commandsEnabled) {

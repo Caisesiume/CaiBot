@@ -102,3 +102,29 @@ exports.updateRewards = async function (rewardObject) {
         console.log(e)
     }
 }
+
+/**
+ * Saves updated state of Reactions to file
+ * @param channel The channel where the change should be applied
+ * @param state Is on/off
+ */
+ exports.saveReactionState = async function (channel, state) {
+    const PATH_CHANNELS = './Channel/channels.json';
+    try {
+        let channelJson = JSON.parse(await fs.readFile(PATH_CHANNELS));
+        for(index in channelJson.joined_channels) {
+            if (channelJson.joined_channels[index].channel_key === channel) {
+                if (state === true || state === false) {
+                    channelJson.joined_channels[index].reactions.enabled = state;
+                    await this.writeUpdatedChannels(PATH_CHANNELS,channelJson)
+                    console.log(`Successfully saved reaction update to file`);
+                }
+            }
+        }
+    } catch (e) {
+        let d = new Date();
+        let currentTime = d.getHours() +":"+ d.getMinutes() +":"+ d.getSeconds();
+        console.log(currentTime +" | Reaction state file save failed");
+        console.log(e)
+    }
+}

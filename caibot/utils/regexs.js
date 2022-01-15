@@ -67,3 +67,14 @@ module.exports.clipCheck = function () {
 module.exports.videoCheck = function () {
     return /video/gmi;
 }
+
+/**
+ * Regex used to split the update command to its three components.
+ * !module command identifyer
+ * Group moduleToUpdate - the module to update.
+ * Group state - Enable/Disable.
+ * @returns {RegExp}
+ */
+ module.exports.moduleUpdateSplit = function () {
+    return/!module +(?<moduleToUpdate>[\d\w]{3,12}) +(?<state>[\d\w]{3,12})/gmi;
+}

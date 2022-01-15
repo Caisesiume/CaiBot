@@ -4,13 +4,14 @@
  */
 exports.getDateHHMMSS = function () {
     let timestamp = new Date();
-    return timestamp.toLocaleTimeString([],
+    let theTime = timestamp.toLocaleTimeString([],
         {
             hourCycle: 'h23',
             hour: '2-digit',
             minute: '2-digit',
             second: '2-digit',
         });
+    return theTime;
 }
 
 /**
