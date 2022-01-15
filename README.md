@@ -4,23 +4,22 @@ This is a hobby project about twitch chat moderation which turned out much large
 
 You can find more about the bot on my [twitch page](https://www.twitch.tv/caisesiume/about)
 
-This page is where you will be able to find the rebuilt & better version of the currently running bot.
+This page is the legacy and not completed version of the bot. This is not where you will be able to find the currently running bot.
 
-For now, you can find all commands and similar in the [GitHub wiki](https://github.com/Caisesiume/CaiBot/wiki/Home).
+You can still find all commands and similar in the [GitHub wiki](https://github.com/Caisesiume/CaiBot/wiki/Home).
 
-Some bot features to be implemented:
+Some working features:
 
 * Chat moderation
 * [Commands](https://github.com/Caisesiume/CaiBot/wiki/Commands)
-* Custom commands
 * [Custom channel point rewards](https://github.com/Caisesiume/CaiBot/wiki/Channel-Point-Rewards)
 
 
 ![PepoG](https://cdn.frankerfacez.com/emoticon/218530/2)
-*This page is currently under development, and won't be complete for a while*
+*This page is currently not under development, and won't be completed for a while*
 
 ## Technical info
-The bot is node.js based(12.x) and connects to twitch using the Twitch.js API.
+The bot is node.js based(12.x) and connects to twitch using the Twitch.js API (depricated. Use twurple instead).
 
 By using 'npm install' you install all the needed node modules.
 
@@ -29,4 +28,4 @@ Swap the placeholders in tokens.json and client.json with your real ones.
 
 When you set up the authorization part, you can simply use 'npm start' to start the bot.
 
-The current state of the bot is sort of limited. It has a few cool features that works but it's not at all free from issues, just a heads up.
+The current state of the bot is limited. It has a few cool features that works but it's not free from issues, just a heads up.

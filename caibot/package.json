@@ -4,7 +4,7 @@
   "main": "main.js",
   "private": true,
   "scripts": {
-    "start": "node main.js"
+    "start": "node index.js"
   },
   "author": "Caisesiume",
   "license": "MIT",
