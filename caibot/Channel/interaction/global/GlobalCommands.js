@@ -2,6 +2,7 @@ const {getDuration} = require("../../../utils/TimeHandler");
 const REGEX = require("../../../utils/regexs");
 const nukeHelp = require("./bots");
 const { TimeHandler } = require("../../../utils");
+const { startStateManager } = require("./StateManager/StateHandler");
 module.exports.listenGlobal = async function(channelObjList,chatClient) {
     //console.log(channelObjList);
     await startGlobalListen(channelObjList,chatClient);
@@ -37,70 +38,4 @@ async function startGlobalListen(channelObjList, chatClient) {
             console.log(e);
         }
     });
-}
-
-async function startStateManager(chanenlInfo, chatClient) {
-    chatClient.onPrivmsg(async (channel, user, message, msg) => {
-        try {
-            if(msg.userInfo.isMod && message.startsWith("!module")) {
-                let validCommand = REGEX.moduleUpdateSplit().exec(message);
-                let channelToEdit = await findChannelObject(chanenlInfo, channel);
-                if (validCommand) {
-                    console.log("is valid");
-                    let updateModule = validCommand.groups["moduleToUpdate"].toLowerCase();
-                    let state = validCommand.groups["state"].toLowerCase();
-                    switch (updateModule) {
-                        case "reaction": // Reactions === Sub Reactions/ Resub Reactions
-                            let currentState = channelToEdit.getReactionSettings().isEnabled(); //Boolean
-                            if (state === "on" || state === "enable") {
-                                if (!currentState) {
-                                    channelToEdit.getReactionSettings().setEnabled(channel, true);
-                                    console.log(`${TimeHandler.getDateHHMMSS()} | ${msg.userInfo.displayName} Enabled Sub Reactions in ${channel}`);
-                                    chatClient.say(channel, `@${msg.userInfo.displayName}, Successfully enabled sub reactions! PogChamp`)
-                                } else {
-                                    chatClient.say(channel, `@${msg.userInfo.displayName}, This module is already enabled!`)
-                                }
-                            } else if (state === "off" || state === "disable") {
-                                if (currentState) {
-                                    channelToEdit.getReactionSettings().setEnabled(channel, false);
-                                    console.log(`${TimeHandler.getDateHHMMSS()} | ${msg.userInfo.displayName} Disabled Sub Reactions in ${channel}`);
-                                    chatClient.say(channel, `@${msg.userInfo.displayName},  Sub reactions are now disabled!`)
-                                } else {
-                                    chatClient.say(channel, `@${msg.userInfo.displayName}, This module is already disabled!`)
-                                }
-                            } else {
-                                console.log(`${TimeHandler.getDateHHMMSS()} | ${msg.userInfo.displayName} attempted to change state of reactions in ${channel}`);
-                                chatClient.say(channel, `@${msg.userInfo.displayName}, I am not sure 🤔 Do you want to enable or disable this module? <!module moduleName on/off>`)
-                            }
-                            break;
-                        case "commands":
-                            break;
-                        case "moderation":
-                            break;
-                        default:
-                            break;
-                    }
-                }
-            }
-        } catch (e) {
-            console.log(e);
-            console.log("Error in State Manager. GlobalCommmands.js");
-        }
-    })
-}
-
-
-/**
- * 
- * @param {ObjectArray} channellList containing a list of all settings from all channels.
- * @param {String} channel - the channel from which the data is requested.
- * @returns if successfully found, returns the channel object.
- */
-async function findChannelObject(channellList, channel) {
-    const channelKeys = Object.keys(channellList);
-    for (let channelIndex of channelKeys) {
-        if (channellList[channelIndex].channel_key === channel) {
-            return channellList[channelIndex];
-        }
-    }
 }

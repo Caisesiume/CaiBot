@@ -22,7 +22,7 @@ module.exports.connectToChannels = async function (channelChunkSize, joinInterva
 
     function prepareUpdate(PATH, botChannels, channelObjects) {
         botChannels.joined_channels = channelObjects
-        console.log(botChannels.joined_channels[1].reactions);
+        //console.log(botChannels.joined_channels[1].reactions);
         FileHandler.writeUpdatedChannels(PATH_CHANNELS,botChannels)
     }
 
