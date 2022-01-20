@@ -1,31 +1,68 @@
 # CaiBot
+Quick links
+- [How to get started?](https://github.com/Caisesiume/CaiBot#How-to-get-started-with-the-bot?)
+- [About](https://github.com/Caisesiume/CaiBot#About)
+- [Technical Details](https://github.com/Caisesiume/CaiBot#technical-info)
 
-This is a hobby project about twitch chat moderation which turned out much larger than expected...
+## How to get started with the bot?
+<hr>
 
-You can find more about the bot on my [twitch page](https://www.twitch.tv/caisesiume/about)
+*Having some programming experience will be helpful when getting started.*
 
-This page is the legacy and not completed version of the bot. This is not where you will be able to find the currently running bot.
+> Firstly, you want to clone the repo to where you want to run the bot. 
 
-You can still find all commands and similar in the [GitHub wiki](https://github.com/Caisesiume/CaiBot/wiki/Home).
+> Go to [Twitch's Dev page](https://dev.twitch.tv/) and to your console. Grab your *Client ID* and *Client Secret*, using these you can get your *accessToken* and *refreshToken*. 
 
-Some working features:
+**Remember to include moderation in the scope (*chat:edit* and *channel:moderate*).*
 
-* Chat moderation
-* [Commands](https://github.com/Caisesiume/CaiBot/wiki/Commands)
-* [Custom channel point rewards](https://github.com/Caisesiume/CaiBot/wiki/Channel-Point-Rewards)
+> Swap the placeholders in respective json file in the ``caibot/Auth/`` folder with the real ``clientID``,``clientSecret``, ``accessToken`` and ``refreshToken`` you just got from the previous step. 
+>
+> > Additionally, you want to check out ``caibot/chanels.json``
+> >
+> > Swap the ``channel_key`` to ``#<ChannelYouWantToJoin>``
+> >
+> > Swap the ``channel_name`` to ``<ChannelYouWantToJoin>``
+> 
+> > If you have experience with JSON structures you could edit all bot settings this way. Keep in mind to only change values. 
+If you do not have experience with JSON, it's recommended to use chat commands for editing purposes. (You still need to change ``channel_key`` and ``channel_name`` manually)
 
+> Before starting the bot, you will need to install the nessesary npm packages to use the bot. 
+> 
+> Use:  ``npm install``
 
-![PepoG](https://cdn.frankerfacez.com/emoticon/218530/2)
-*This page is currently not under development, and won't be completed for a while*
+> When you set up the authorization part and installed all the packages, you can simply use ``npm start`` to start the bot.
+
+> It is recommended to use a Twitch account specific to the bot.
+
+## About
+<hr>
+
+**This repository contains a version of a Twitch Chatbot with limited functionality. The full system is not open source.**
+
+CaiBot is a hobby project about twitch chat moderation which turned out much larger than expected...
+
+Don't expect a lot of updates to this repository. Updates will happen every once in a while to add features existing in the live version of the chatbot.
+
+You can find the currently usable commands and similar in the [GitHub wiki](https://github.com/Caisesiume/CaiBot/wiki/Home).
+
+> Some of the features:
+>
+> * Chat moderation
+> * Commands
+> * Sub/Resub reactions
+> * [Custom channel point rewards](https://github.com/Caisesiume/CaiBot/wiki/Channel-Point-Rewards)
+
+Feel free to use this repo to create your own chat bot for your twitch chat! 
 
 ## Technical info
-The bot is node.js based(12.x) and connects to twitch using the Twitch.js API (depricated. Use twurple instead).
+The bot is node.js based(12.x) and connects to twitch using the Twitch.js API (depricated. Use [Twurple](https://twurple.js.org/)).
 
-By using 'npm install' you install all the needed node modules.
-
-In order to use this bot, you will have to get your bot account's tokens and clients.
-Swap the placeholders in tokens.json and client.json with your real ones.
-
-When you set up the authorization part, you can simply use 'npm start' to start the bot.
+There is no database used in this version. All settings and values are saved to json files.
 
 The current state of the bot is limited. It has a few cool features that works but it's not free from issues, just a heads up.
+
+
+<img src="https://cdn.frankerfacez.com/emoticon/218530/2" alt="FFZ emote PepoG" width="30px">
+</img>
+
+*This repository is not under development any more, and will not be fully completed. Updates may still happen occationally*
