@@ -17,7 +17,7 @@ Quick links
 
 > Swap the placeholders in respective json file in the ``caibot/Auth/`` folder with the real ``clientID``,``clientSecret``, ``accessToken`` and ``refreshToken`` you just got from the previous step. 
 >
-> > Additionally, you want to check out ``caibot/chanels.json``
+> > Additionally, you want to check out ``caibot/Channel/channels.json``
 > >
 > > Swap the ``channel_key`` to ``#<ChannelYouWantToJoin>``
 > >
