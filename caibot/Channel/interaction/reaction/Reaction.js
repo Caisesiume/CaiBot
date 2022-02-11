@@ -1,16 +1,22 @@
 class Reaction{
+    emoteStack;
     randomEmote;
     subPhrase;
     resubPhrase;
     subEmote;
 
-    constructor(isRandomEmote, specSubPhrase, specResubPhrase, specSubEmote) {
+    constructor(emoteStack, isRandomEmote, specSubPhrase, specResubPhrase, specSubEmote) {
+        this.emoteStack = emoteStack;
         this.randomEmote = isRandomEmote;
         this.subPhrase = specSubPhrase;
         this.resubPhrase = specResubPhrase;
         this.subEmote = specSubEmote;
     }
     
+    hasEmoteStack(){
+        return this.emoteStack;
+    }
+
     hasRandomEmote() {
         return this.randomEmote;
     }

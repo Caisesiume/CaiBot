@@ -70,7 +70,7 @@ async function startSubsTracking(channelSettings,chatClient) {
                 const subPlanNew = {"1000": "Tier 1", "2000": "Tier 2", "3000": "Tier 3", "Prime": "Prime"}[subInfo.plan];
                 const months = subInfo.months;
                 // subEmote x Months
-                if (!reactionSettings.hasRandomEmote()) {
+                if (reactionSettings.hasEmoteStack()) { //If the channel has emote stacks enabled, months subbed = amount of subEmote.
                     const subEmote = reactionSettings.getSubEmote();
                     const subEmoteStack = await getSubEmoteStack(subEmote, months);
                     let toBeSent = `${reactionSettings.getResubPhrase()} ${msg.userInfo.displayName} [${subPlanNew}] ${subEmoteStack}`
@@ -94,7 +94,36 @@ async function startSubsTracking(channelSettings,chatClient) {
                                 break;
                         }
                     }
-                } else { // If channel has random emotes enabled, go here
+                } else if (reactionSettings.hasRandomEmote()) {
+
+                    // Needs to be implemented. 
+                    // TODO: 
+                    // Get name of FFZ, BTTV and Channel emotes (if bot is subbed).
+                    // Put all emote names into an array, randomize a number and pick the emote at that array index.
+                    // Set that array index value to a temp variable. 
+                    // lastly, send the message to chat. chatClient.say... etc.
+
+                    // Placeholder code.
+                    // Functionality wise, this will look the same in chat as a channel with both emote stack feature and random emote feature disabled.
+                    switch (subPlanNew) {
+                        case "Tier 2":
+                            chatClient.say(channel, `${reactionSettings.getResubPhrase()} ${msg.userInfo.displayName} [${subPlanNew}] ${reactionSettings.getSubEmote()}`)
+                            console.log(`${reactionSettings.getResubPhrase()} ${msg.userInfo.displayName} [${subPlanNew}] ${reactionSettings.getSubEmote()}`);
+                            break;
+                        case "Tier 3":
+                            chatClient.say(channel, `${reactionSettings.getResubPhrase()} ${msg.userInfo.displayName} [${subPlanNew}] ${reactionSettings.getSubEmote()}`)
+                            console.log(`${reactionSettings.getResubPhrase()} ${msg.userInfo.displayName} [${subPlanNew}] ${reactionSettings.getSubEmote()}`);
+                            break;
+                        case "Prime":
+                            chatClient.say(channel, `${reactionSettings.getResubPhrase()} ${msg.userInfo.displayName} [${subPlanNew}] ${reactionSettings.getSubEmote()}`)
+                            console.log(`${reactionSettings.getResubPhrase()} ${msg.userInfo.displayName} [${subPlanNew}] ${reactionSettings.getSubEmote()}`);
+                            break;
+                        default: 
+                            chatClient.say(channel, `${reactionSettings.getResubPhrase()} ${msg.userInfo.displayName} [${subPlanNew}] ${reactionSettings.getSubEmote()}`)
+                            console.log(`${reactionSettings.getResubPhrase()} ${msg.userInfo.displayName} [${subPlanNew}] ${reactionSettings.getSubEmote()}`);
+                            break;
+                    }
+                } else { // If channel has a set emote (not random) to use, but not stacking for amount of months.
                     switch (subPlanNew) {
                         case "Tier 2":
                             chatClient.say(channel, `${reactionSettings.getResubPhrase()} ${msg.userInfo.displayName} [${subPlanNew}] ${reactionSettings.getSubEmote()}`)

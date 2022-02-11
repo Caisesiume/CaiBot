@@ -9,6 +9,7 @@ class ReactionController{
 
     async setReaction(reactionJson) {
         this.reaction = new Reaction(
+            reactionJson.reaction.emoteStack,
             reactionJson.reaction.randomEmote,
             reactionJson.reaction.subPhrase,
             reactionJson.reaction.resubPhrase,
