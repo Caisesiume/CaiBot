@@ -17,7 +17,7 @@ Quick links
 
 > Swap the placeholders in respective json file in the ``caibot/Auth/`` folder with the real ``clientID``,``clientSecret``, ``accessToken`` and ``refreshToken`` you just got from the previous step. 
 >
-> > Additionally, you want to check out ``caibot/chanels.json``
+> > Additionally, you want to check out ``caibot/Channel/chanels.json``
 > >
 > > Swap the ``channel_key`` to ``#<ChannelYouWantToJoin>``
 > >
@@ -57,9 +57,13 @@ Feel free to use this repo to create your own chat bot for your twitch chat!
 ## Technical info
 The bot is node.js based(12.x) and connects to twitch using the Twitch.js API (depricated. Use [Twurple](https://twurple.js.org/)).
 
-There is no database used in this version. All settings and values are saved to json files.
+See ``caibot/package.json`` to see what npm packages the bot is using.
 
-The current state of the bot is limited. It has a few cool features that works but it's not free from issues, just a heads up.
+There is no UI or frontend layer. This system is intended to be run using a console.
+
+There is no database used in this version. All settings and values are saved to json files. You can easily change the different settings for your channel by editing values in ``caibot/Channel/channels.json``. Keep in mind to only change the values and maintain the overall structure.
+
+The current state of the bot is limited. It has a few cool features that works but it is not free from issues, just a heads up.
 
 
 <img src="https://cdn.frankerfacez.com/emoticon/218530/2" alt="FFZ emote PepoG" width="30px">
