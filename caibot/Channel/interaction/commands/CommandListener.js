@@ -11,6 +11,18 @@ module.exports.listen = async function(channelSettings,chatClient) {
     }
 }
 
+/**
+ * This function starts a listener that will listen for messages startign with a word which is defined as a command
+ * in the channel. 
+ * If the first word in a message is a command, it first gets the related command object.
+ * Then it checks wether the user executing the command have permission to use the command and if the command is on cooldown or not.
+ * If the command isnt on cooldown and and the user got permission to use it, puzzle the message parts together and send it to twitch chat.
+ * Lastly, we set the command used on a command specific cooldown.
+ * 
+ * @param {Object} channelSettings is the Channel Object containing all channel data.
+ * @param {Map} map containging commands. Eg ("!command", {CommandObj}) 
+ * @param {Object} chatClient client connected to twitch. Used to communicate with the twitchjs api.
+ */
 async function startListen(channelSettings,map,chatClient) {
     chatClient.onPrivmsg(async (channel, user, message, msg) => {
         try {

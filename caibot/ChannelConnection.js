@@ -18,7 +18,7 @@ module.exports.connectToChannels = async function (channelChunkSize, joinInterva
     botChannels = JSON.parse(await fs.readFile(PATH_CHANNELS,'UTF-8'));
     currentlyRunningChannels = FileHandler.getOperatingChannels(botChannels.joined_channels); //saves all channels the bot is in
     botChannels.channel_count = currentlyRunningChannels.length;
-    setInterval(prepareUpdate, 3000, PATH_CHANNELS, botChannels, channelObjects); //auto save to disk every 60s
+    setInterval(prepareUpdate, 10000, PATH_CHANNELS, botChannels, channelObjects); //auto save to disk every 3s
 
 
     /**
