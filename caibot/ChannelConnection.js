@@ -151,7 +151,7 @@ module.exports.connectToChannels = async function (channelChunkSize, joinInterva
             await joinQueue.dequeue();
             console.log(Utils.TimeHandler.getDateHHMMSS() + " | Getting Mod List for: ", channel_key);
             let mods = await chatClient.getMods(channel_key);
-            let newChannelObject = new TwitchChannel.TwitchChannel(channel_key,channel_key.split('#').join(''),0,mods,true,true)
+            let newChannelObject = new TwitchChannel.TwitchChannel(channel_key,channel_key.split('#').join(''),0,mods,true,true,false)
             botChannels.joined_channels.push(newChannelObject); //adds the newly joined channel to the saved json structure
             botChannels.channel_count++;
         }
