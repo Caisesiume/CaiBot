@@ -22,7 +22,7 @@ async function startListen(channelSettings,chatClient) {
                     let timeoutLength = actionDetails[1];
                     let reason = actionDetails[2];
 
-                    if (takeAction) {
+                    if (takeAction && !(msg.userInfo.isMod)) {
 
                         if (timeoutLength === "ban") {
                             await chatClient.ban(channel, user, reason);

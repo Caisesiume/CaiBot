@@ -3,6 +3,7 @@ const {NWordFilter} = require("./NWordFilter");
 const {Spambot} = require("./Spambot");
 const {Ascii} = require("./Ascii");
 const {SelfPromotion} = require("./SelfPromotion");
+const { LinkFilter } = require("./LinkFilter");
 
 class Moderation {
     constructor(enabled) {
@@ -12,7 +13,8 @@ class Moderation {
             "selfpromo": new SelfPromotion("selfpromo","Checks if the message is self promotion (linking own channel)", true, false, 600),
             "spambot": new Spambot("spambot","Bans users posting bot spam including bigfollow.com link",true,true,0),
             "nword": new NWordFilter("nword","Bans users using the nword in any context",true,true,0),
-            "fword": new FWordFilter("fword","Times out users using the f word in any context", true,false,86400)
+            "fword": new FWordFilter("fword","Times out users using the f word in any context", true,false,86400),
+            "link": new LinkFilter("link","Times out users using links not allowed in chat", true, false, 600)
         }
     };
 
@@ -42,9 +44,15 @@ class Moderation {
             }
         }
         if (this.filters.fword.isEnabled()) {
-            let fWord = await this.filters.nword.checkIfMatch(message)
+            let fWord = await this.filters.fword.checkIfMatch(message)
             if (fWord !== undefined) {
                 return fWord;
+            }
+        }
+        if (this.filters.link.isEnabled()) {
+            let link = await this.filters.link.checkIfMatch(message)
+            if (link !== undefined) {
+                return link;
             }
         }
     }
@@ -56,7 +64,8 @@ class Moderation {
             "selfpromo": new SelfPromotion("selfpromo",jsonFilter.selfpromo.description,jsonFilter.selfpromo.enabled,jsonFilter.selfpromo.ban,jsonFilter.selfpromo.timeoutLength),
             "spambot": new Spambot("spambot",jsonFilter.spambot.description,jsonFilter.spambot.enabled,jsonFilter.spambot.ban,jsonFilter.spambot.timeoutLength),
             "nword": new NWordFilter("nword",jsonFilter.nword.description,jsonFilter.nword.enabled,jsonFilter.nword.ban,jsonFilter.nword.timeoutLength),
-            "fword": new FWordFilter("fword",jsonFilter.fword.description,jsonFilter.fword.enabled,jsonFilter.fword.ban,jsonFilter.fword.timeoutLength)
+            "fword": new FWordFilter("fword",jsonFilter.fword.description,jsonFilter.fword.enabled,jsonFilter.fword.ban,jsonFilter.fword.timeoutLength),
+            "link": new LinkFilter("link",jsonFilter.fword.description,jsonFilter.fword.enabled,jsonFilter.fword.ban,jsonFilter.fword.timeoutLength)
         }
     }
 

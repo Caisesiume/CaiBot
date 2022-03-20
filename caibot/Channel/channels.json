@@ -1,7 +1,109 @@
 {
     "total_msg": 0,
-    "channel_count": 4,
+    "channel_count": 3,
     "joined_channels": [
+        {
+            "channel_key": "#pepegaclapbot",
+            "channel_name": "pepegaclapbot",
+            "messages": 0,
+            "mods": [
+                "a66i",
+                "bigpapachenko",
+                "bmxdmx",
+                "burritogirl",
+                "caisesiume",
+                "champvalentine",
+                "initoo",
+                "mrburnn",
+                "naturegoddess",
+                "paulll",
+                "pepegaclapbot",
+                "pepegahek",
+                "quadpodz",
+                "tsmtwolf",
+                "zarosduck"
+            ],
+            "moderationSettings": {
+                "enabled": true,
+                "filters": {
+                    "ascii": {
+                        "filterType": "ascii",
+                        "description": "Removes larger ascii arts from chat.",
+                        "enabled": true,
+                        "ban": false,
+                        "timeoutLength": 3
+                    },
+                    "selfpromo": {
+                        "filterType": "selfpromo",
+                        "description": "Checks if the message is self promotion (linking own channel)",
+                        "enabled": true,
+                        "ban": false,
+                        "timeoutLength": 600
+                    },
+                    "spambot": {
+                        "filterType": "spambot",
+                        "description": "Bans users posting bot spam including bigfollow.com link",
+                        "enabled": true,
+                        "ban": true,
+                        "timeoutLength": 0
+                    },
+                    "nword": {
+                        "filterType": "nword",
+                        "description": "Bans users using the n word in any context",
+                        "enabled": true,
+                        "ban": true,
+                        "timeoutLength": 0
+                    },
+                    "fword": {
+                        "filterType": "fword",
+                        "description": "Times out users using the f word in any context",
+                        "enabled": true,
+                        "ban": false,
+                        "timeoutLength": 3600
+                    },
+                    "link": {
+                        "filterType": "link",
+                        "description": "Times out users using links that shouldn't be used in chat.",
+                        "enabled": true,
+                        "ban": false,
+                        "timeoutLength": 600
+                    }
+                }
+            },
+            "commands": {
+                "enabled": true,
+                "commandList": [
+                    {
+                        "enabled": true,
+                        "commandName": "!ping2",
+                        "response": "Pong! Bot uptime: xx:xx:xx",
+                        "cooldown": 10000,
+                        "hasCooldown": false,
+                        "permission": 0
+                    },
+                    {
+                        "enabled": true,
+                        "commandName": "!t",
+                        "response": "Works!",
+                        "cooldown": 5000,
+                        "hasCooldown": false,
+                        "permission": 0
+                    }
+                ]
+            },
+            "reactions": {
+                "enabled": true,
+                "reaction": {
+                    "emoteStack": true,
+                    "randomEmote": false,
+                    "subPhrase": " Here, your first trihard",
+                    "resubPhrase": "trihard for you",
+                    "subEmote": "TriHard"
+                }
+            },
+            "recentTimeouts": [],
+            "msgLog": {}
+        },
         {
             "channel_key": "#caisesiume",
             "channel_name": "caisesiume",
@@ -54,6 +156,13 @@
                         "enabled": true,
                         "ban": false,
                         "timeoutLength": 86400
+                    },
+                    "link": {
+                        "filterType": "link",
+                        "description": "Times out users using links that shouldn't be used in chat.",
+                        "enabled": true,
+                        "ban": false,
+                        "timeoutLength": 600
                     }
                 }
             },
@@ -181,256 +290,6 @@
                     "subPhrase": " Here, your first trihard",
                     "resubPhrase": "trihard for you",
                     "subEmote": "TriHard"
-                }
-            },
-            "recentTimeouts": [],
-            "msgLog": {}
-        },
-        {
-            "channel_key": "#missbaffy",
-            "channel_name": "missbaffy",
-            "messages": 0,
-            "mods": [
-                "bumboclaatbot",
-                "caisesiume",
-                "fishy",
-                "i_have_a_big_clock",
-                "keshaeuw",
-                "moobot",
-                "pepegaclapbot",
-                "quadpodz",
-                "rewardtts",
-                "slowlight",
-                "streamelements",
-                "ukscrash",
-                "waylonz",
-                "xylomylo42"
-            ],
-            "moderationSettings": {
-                "enabled": true,
-                "filters": {
-                    "ascii": {
-                        "filterType": "ascii",
-                        "description": "Removes larger ascii arts from chat.",
-                        "enabled": true,
-                        "ban": false,
-                        "timeoutLength": 3
-                    },
-                    "selfpromo": {
-                        "filterType": "selfpromo",
-                        "description": "Checks if the message is self promotion (linking own channel)",
-                        "enabled": true,
-                        "ban": false,
-                        "timeoutLength": 600
-                    },
-                    "spambot": {
-                        "filterType": "spambot",
-                        "description": "Bans users posting bot spam including bigfollow.com link",
-                        "enabled": true,
-                        "ban": true,
-                        "timeoutLength": 0
-                    },
-                    "nword": {
-                        "filterType": "nword",
-                        "description": "Bans users using the n word in any context",
-                        "enabled": true,
-                        "ban": true,
-                        "timeoutLength": 0
-                    },
-                    "fword": {
-                        "filterType": "fword",
-                        "description": "Times out users using the f word in any context",
-                        "enabled": true,
-                        "ban": false,
-                        "timeoutLength": 7200
-                    }
-                }
-            },
-            "commands": {
-                "enabled": true,
-                "commandList": [
-                    {
-                        "enabled": true,
-                        "commandName": "!test",
-                        "response": "Works!",
-                        "cooldown": 5000,
-                        "hasCooldown": false,
-                        "permission": 0
-                    }
-                ]
-            },
-            "reactions": {
-                "enabled": true,
-                "reaction": {
-                    "emoteStack": true,
-                    "randomEmote": false,
-                    "subPhrase": " Here, your first rose",
-                    "resubPhrase": "Roses for you",
-                    "subEmote": "baffyRose"
-                }
-            },
-            "recentTimeouts": [],
-            "msgLog": {}
-        },
-        {
-            "channel_key": "#kandyland",
-            "channel_name": "kandyland",
-            "messages": 0,
-            "mods": [
-                "24kbrownmagic",
-                "4conner",
-                "a66i",
-                "aladyfern",
-                "androgodslay",
-                "atrice",
-                "austinshow",
-                "brekun",
-                "bubbisendeluxe",
-                "caisesiume",
-                "craig1337",
-                "crazyslick",
-                "dave_brockie",
-                "derspiegel_",
-                "donquixooote",
-                "ecko",
-                "esfandtv",
-                "finduz2",
-                "greekgodx",
-                "growl",
-                "hampusa",
-                "hannzas",
-                "hellory",
-                "hencc",
-                "henniekeumus",
-                "immooncow",
-                "invadervie",
-                "jackiep0w",
-                "jaycgee",
-                "jenna",
-                "jokerdtv",
-                "jonzherka",
-                "jubby",
-                "justrolle",
-                "katerino",
-                "katten_lol",
-                "khailzer",
-                "knut",
-                "krelena",
-                "l34f34ter",
-                "lizzie_vargfrost",
-                "manta324",
-                "mastergkill",
-                "masterplan650",
-                "melina",
-                "minititan",
-                "missbaffy",
-                "mizkif",
-                "mrbeanz92",
-                "mrburnn",
-                "mrmashalla",
-                "nightbot",
-                "nmplol",
-                "nobodypepe",
-                "novaruu",
-                "nymn",
-                "official_viggeb",
-                "pepegaclapbot",
-                "proplayer1o1",
-                "qtcinderella",
-                "r33hab_of",
-                "racer_bobbo",
-                "rackaretwc",
-                "randomecticly",
-                "razorlord",
-                "richardlaruina",
-                "sabotagesweetie",
-                "serring",
-                "sleipur",
-                "sn0wlo",
-                "sodapoppin",
-                "speedemon",
-                "spicycurrylol",
-                "steof",
-                "stolp3",
-                "stormen90",
-                "streamelements",
-                "streamlabs",
-                "strider",
-                "sturemoller",
-                "terrabuck",
-                "thetwister90",
-                "torpa5",
-                "trainwreckstv",
-                "tricklord_",
-                "veni",
-                "vlncentw",
-                "well_read_well_tommy",
-                "whipsticker",
-                "wickd",
-                "zenf00",
-                "zierro"
-            ],
-            "moderationSettings": {
-                "enabled": true,
-                "filters": {
-                    "ascii": {
-                        "filterType": "ascii",
-                        "description": "Removes larger ascii arts from chat.",
-                        "enabled": true,
-                        "ban": false,
-                        "timeoutLength": 3
-                    },
-                    "selfpromo": {
-                        "filterType": "selfpromo",
-                        "description": "Checks if the message is self promotion (linking own channel)",
-                        "enabled": true,
-                        "ban": false,
-                        "timeoutLength": 600
-                    },
-                    "spambot": {
-                        "filterType": "spambot",
-                        "description": "Bans users posting bot spam including bigfollow.com link",
-                        "enabled": true,
-                        "ban": true,
-                        "timeoutLength": 0
-                    },
-                    "nword": {
-                        "filterType": "nword",
-                        "description": "Bans users using the n word in any context",
-                        "enabled": true,
-                        "ban": true,
-                        "timeoutLength": 0
-                    },
-                    "fword": {
-                        "filterType": "fword",
-                        "description": "Times out users using the f word in any context",
-                        "enabled": true,
-                        "ban": false,
-                        "timeoutLength": 7200
-                    }
-                }
-            },
-            "commands": {
-                "enabled": true,
-                "commandList": [
-                    {
-                        "enabled": true,
-                        "commandName": "!test",
-                        "response": "Works!",
-                        "cooldown": 5000,
-                        "hasCooldown": false,
-                        "permission": 0
-                    }
-                ]
-            },
-            "reactions": {
-                "enabled": true,
-                "reaction": {
-                    "emoteStack": false,
-                    "randomEmote": false,
-                    "subPhrase": "hype Welcome to kandyland",
-                    "resubPhrase": " hype Welcome back to kandyland",
-                    "subEmote": "kandyKiss"
                 }
             },
             "recentTimeouts": [],
