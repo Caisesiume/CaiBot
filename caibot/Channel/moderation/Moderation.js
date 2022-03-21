@@ -65,7 +65,7 @@ class Moderation {
             "spambot": new Spambot("spambot",jsonFilter.spambot.description,jsonFilter.spambot.enabled,jsonFilter.spambot.ban,jsonFilter.spambot.timeoutLength),
             "nword": new NWordFilter("nword",jsonFilter.nword.description,jsonFilter.nword.enabled,jsonFilter.nword.ban,jsonFilter.nword.timeoutLength),
             "fword": new FWordFilter("fword",jsonFilter.fword.description,jsonFilter.fword.enabled,jsonFilter.fword.ban,jsonFilter.fword.timeoutLength),
-            "link": new LinkFilter("link",jsonFilter.fword.description,jsonFilter.fword.enabled,jsonFilter.fword.ban,jsonFilter.fword.timeoutLength)
+            "link": new LinkFilter("link",jsonFilter.link.description,jsonFilter.link.enabled,jsonFilter.link.ban,jsonFilter.link.timeoutLength)
         }
     }
 
