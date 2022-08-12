@@ -18,7 +18,7 @@ class Moderation {
         }
     };
 
-    async checkFilters(message,user,msg) {
+    async checkFilters(message,user,msg,socialArray) {
         if (this.filters.ascii.isEnabled()) {
             let ascii = await this.filters.ascii.checkIfAscii(message,msg);
             if (ascii !== undefined) {
@@ -50,7 +50,7 @@ class Moderation {
             }
         }
         if (this.filters.link.isEnabled()) {
-            let link = await this.filters.link.checkIfMatch(message)
+            let link = await this.filters.link.checkIfMatch(message,socialArray)
             if (link !== undefined) {
                 return link;
             }

@@ -18,7 +18,7 @@ module.exports.connectToChannels = async function (channelChunkSize, joinInterva
     botChannels = JSON.parse(await fs.readFile(PATH_CHANNELS,'UTF-8'));
     currentlyRunningChannels = FileHandler.getOperatingChannels(botChannels.joined_channels); //saves all channels the bot is in
     botChannels.channel_count = currentlyRunningChannels.length;
-    setInterval(prepareUpdate, 10000, PATH_CHANNELS, botChannels, channelObjects); //auto save to disk every 3s
+    setInterval(prepareUpdate, 10000, PATH_CHANNELS, botChannels, channelObjects); //auto save to disk every 10s
 
 
     /**
@@ -49,7 +49,7 @@ module.exports.connectToChannels = async function (channelChunkSize, joinInterva
     /**
      * This function is used to easier comply with Twitch rate limits.
      * The bot can only join X amount of channels in Y amount of time.
-     * Therefore this function fills the functionality to limit the JOIN/s rate.
+     * Therefore this function fills the functionality to limit the JOIN/s rate (see comment in index.js).
      * For each iteration of the loop, we join the channels in array X in the two-dimensional array.
      * 
      * @param {Array} channelChunks needs to be a two-dimensional array. Eg. [["#channel1, "#channel2"], ["#channel3", "#channel4"]]
@@ -102,7 +102,8 @@ module.exports.connectToChannels = async function (channelChunkSize, joinInterva
     async function reCreateChannelObject(jsonStructure) {
         //console.log(jsonStructure);
         return new TwitchChannel.TwitchChannel(jsonStructure.channel_key, jsonStructure.channel_name,
-            jsonStructure.messages, jsonStructure.mods, jsonStructure.moderationSettings.enabled,jsonStructure.commands.enabled,jsonStructure.reactions.enabled);
+            jsonStructure.messages, jsonStructure.socials, jsonStructure.mods, jsonStructure.moderationSettings.enabled,
+            jsonStructure.commands.enabled, jsonStructure.reactions.enabled);
     }
 
     //Updates the list of moderators for all channels.
@@ -151,7 +152,7 @@ module.exports.connectToChannels = async function (channelChunkSize, joinInterva
             await joinQueue.dequeue();
             console.log(Utils.TimeHandler.getDateHHMMSS() + " | Getting Mod List for: ", channel_key);
             let mods = await chatClient.getMods(channel_key);
-            let newChannelObject = new TwitchChannel.TwitchChannel(channel_key,channel_key.split('#').join(''),0,mods,true,true,false)
+            let newChannelObject = new TwitchChannel.TwitchChannel(channel_key,channel_key.split('#').join(''),0, [{"twitter":"caisesiume"}],mods,true,true,false)
             botChannels.joined_channels.push(newChannelObject); //adds the newly joined channel to the saved json structure
             botChannels.channel_count++;
         }
