@@ -8,13 +8,13 @@ class TwitchChannel{
     channel_key;
     channel_name;
     messages;
+    socials;
     mods = [];
     moderationSettings;
     commands;
     reactions;
     recentTimeouts = [];
     msgLog = {};
-    socials;
 
     constructor(channel_key, channel_name, messages, socials, mods, moderationSettings, hasCommands, hasReactions) {
         this.channel_key = channel_key;
