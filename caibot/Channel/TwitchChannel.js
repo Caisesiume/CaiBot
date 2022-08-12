@@ -8,6 +8,7 @@ class TwitchChannel{
     channel_key;
     channel_name;
     messages;
+    socials;
     mods = [];
     moderationSettings;
     commands;
@@ -15,10 +16,11 @@ class TwitchChannel{
     recentTimeouts = [];
     msgLog = {};
 
-    constructor(channel_key, channel_name, messages, mods, moderationSettings, hasCommands, hasReactions) {
+    constructor(channel_key, channel_name, messages, socials, mods, moderationSettings, hasCommands, hasReactions) {
         this.channel_key = channel_key;
         this.channel_name = channel_name;
         this.messages = messages;
+        this.socials = checkSocials(socials);
         this.mods = mods;
         this.moderationSettings = new Moderation.Moderation(moderationSettings);
         this.commands = new CommandsController.CommandsController(hasCommands);
@@ -120,6 +122,28 @@ class TwitchChannel{
 
     hasModeration() {
         return this.moderationSettings.isActive();
+    }
+
+    /**
+     * Function checks the json structure provided as param for duplicated social handles
+     * and provides all socials in an array in order to let the correct data be used during runtime of the bot.
+     * 
+     * @param {Array} socials 
+     * @returns JSON object containing the channels saved social handles on different platforms.
+     */
+    checkSocials(socials) {
+        const socialArray = [];
+        for (let objectKey in socials) { // for every index in socials (provided array)
+            let currentObj = socials[objectKey]; // saves the element (needs to be a json object) of this iteration
+            let keyName = Object.keys(currentObj); // gets the key(s) of the object and returns an array with the key(s)
+            if(keyName.length === 1) { // Only care if there is just one key in the object, if there is more than 1 something is very wrong. 
+                let objKey = Object.keys(currentObj)[0]; // Retrive the name of the key saved at position 0 in the array.
+                let objValue = Object.values(currentObj)[0]; // Retrive the name of the value saved at position 0 in the array.
+                let socialObj = { [objKey]:objValue }; // Recreate the object to ensure the format required. (Memory issue?) Luckily this isn't C...
+                socialArray.push(socialObj); // Add the newly created object to the array of socials.
+            }
+        }
+        return socialArray;
     }
 }
 module.exports.TwitchChannel = TwitchChannel;
